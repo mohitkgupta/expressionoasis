@@ -76,7 +76,7 @@ public final class ExpressionEngine {
 			throws ExpressionEngineException {
 		Expression compiledExpression = compiler.compile( expression, expressionContext );
 		ValueObject expressionValue = compiledExpression.getValue();
-		LOGGER.debug( "expressionValue[" + expressionValue.getValue() + "]" );
+		LOGGER.debug( "expressionValue[" + ( expressionValue == null ? null : expressionValue.getValue() ) + "]" );
 		return expressionValue.getValue();
 	}
 
@@ -101,13 +101,13 @@ public final class ExpressionEngine {
 		//		String expression = "(false && !true) && !(false && !true)";
 		//		String expression = "-3 * -2 + 10 - -2/-2";
 		//		String expression = "20 - (10/-2 + (-5 * -2)) / (15 * (-5/5) )";
-				String expression = "(1/1!=1) ? 7 : 5";
+		String expression = "(1/1!=1) ? 7 : 5";
 
-				Object result  = ExpressionEngine.evaluate( expression, new ExpressionContext() );
+		Object result = ExpressionEngine.evaluate( expression, new ExpressionContext() );
 
-				System.out.println("Result[" + result + "]");
+		System.out.println( "Result[" + result + "]" );
 
-//		String expression = "true ? 2 : 5";
-//		System.out.println( "complement" + ( 1 & number ) );
+		//		String expression = "true ? 2 : 5";
+		//		System.out.println( "complement" + ( 1 & number ) );
 	}
 }

@@ -47,7 +47,6 @@ public class XMLFunctionProvider implements FunctionProvider {
 	 */
 	private Document		  xmlDocument;
 
-
 	public Type getFunctionType( String functionName, Type[] parameterTypes ) throws ExpressionEngineException {
 		// context should fire event on property set, and this event should listen to that
 		ensureInitialized();

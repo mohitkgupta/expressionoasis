@@ -40,8 +40,8 @@ public interface FunctionProvider {
 	 * 
 	 * @param expressionContext Context of current expression evaluation process
 	 */
-	void initialize (ExpressionContext expressionContext) throws ExpressionEngineException;
-	
+	void initialize( ExpressionContext expressionContext ) throws ExpressionEngineException;
+
 	/**
 	 * Gets the return type of the function.
 	 * 

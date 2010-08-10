@@ -18,7 +18,6 @@
 package org.ganges.expressionengine.extensions;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.Iterator;

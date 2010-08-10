@@ -17,8 +17,6 @@
  */
 package org.ganges.expressionengine;
 
-import java.net.URL;
-
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 

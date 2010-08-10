@@ -40,8 +40,8 @@ public interface VariableProvider {
 	 * 
 	 * @param expressionContext Context of current expression evaluation process
 	 */
-	void initialize (ExpressionContext expressionContext) throws ExpressionEngineException;
-	
+	void initialize( ExpressionContext expressionContext ) throws ExpressionEngineException;
+
 	/**
 	 * Gets the type of variable.
 	 * 

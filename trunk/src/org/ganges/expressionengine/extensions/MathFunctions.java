@@ -19,6 +19,7 @@ package org.ganges.expressionengine.extensions;
 
 import org.ganges.expressionengine.ExpressionContext;
 
+
 /**
  * This class provides the math function for experssion evaluator
  * 
@@ -27,15 +28,12 @@ import org.ganges.expressionengine.ExpressionContext;
  * @version 2.2
  */
 public class MathFunctions {
-	
-	
+
 	/**
 	 * Default constructor
 	 */
-	public MathFunctions (ExpressionContext expressionContext)
-	{
+	public MathFunctions( ExpressionContext expressionContext ) {
 	}
-
 
 	/**
 	 * Returns the absolute value

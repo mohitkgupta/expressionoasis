@@ -1,11 +1,10 @@
 package org.ganges.expressionengine.expressions.booleanexp;
 
-import java.util.HashMap;
-
 import org.ganges.expressionengine.exceptions.ExpressionEngineException;
 import org.ganges.expressionengine.expressions.BinaryOperatorExpression;
 import org.ganges.types.Type;
 import org.ganges.types.ValueObject;
+
 
 /**
  * This expression manage the '?' operator of ternary expression, 

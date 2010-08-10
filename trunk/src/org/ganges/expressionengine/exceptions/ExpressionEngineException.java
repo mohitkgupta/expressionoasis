@@ -44,7 +44,7 @@ public class ExpressionEngineException extends XException {
 	public ExpressionEngineException( String msg ) {
 		super( msg, -1 );
 	}
-	
+
 	/**
 	 * Constructs the ExpressionEngineException
 	 * 

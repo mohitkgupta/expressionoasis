@@ -49,32 +49,36 @@ public class EQExpression extends BinaryOperatorExpression {
 	public ValueObject getValue() throws ExpressionEngineException {
 		Type leftType = leftOperandExpression.getReturnType();
 		Type rightType = rightOperandExpression.getReturnType();
-		Object leftVlaue = leftOperandExpression.getValue().getValue();
-		Object rightVlaue = rightOperandExpression.getValue().getValue();
+		Object leftValue = leftOperandExpression.getValue().getValue();
+		Object rightValue = rightOperandExpression.getValue().getValue();
 		ValueObject result = null;
 
 		if( leftType == Type.LONG && rightType == Type.LONG ) {
-			Boolean value = ( (Long) leftVlaue ).longValue() == ( (Long) rightVlaue ).longValue() ? Boolean.TRUE
+			Boolean value = ( (Long) leftValue ).longValue() == ( (Long) rightValue ).longValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
 		else if( leftType == Type.DOUBLE && rightType == Type.DOUBLE ) {
-			Boolean value = ( (Double) leftVlaue ).doubleValue() == ( (Double) rightVlaue ).doubleValue() ? Boolean.TRUE
+			Boolean value = ( (Double) leftValue ).doubleValue() == ( (Double) rightValue ).doubleValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
 		else if( leftType == Type.STRING && rightType == Type.STRING ) {
-			Boolean value = leftVlaue.equals( rightVlaue ) ? Boolean.TRUE : Boolean.FALSE;
+			Boolean value = leftValue.equals( rightValue ) ? Boolean.TRUE : Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
 		else if( leftType == Type.DOUBLE && rightType == Type.LONG ) {
-			Boolean value = ( (Double) leftVlaue ).doubleValue() == ( (Long) rightVlaue ).longValue() ? Boolean.TRUE
+			Boolean value = ( (Double) leftValue ).doubleValue() == ( (Long) rightValue ).longValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
 		else if( leftType == Type.LONG && rightType == Type.DOUBLE ) {
-			Boolean value = ( (Long) leftVlaue ).longValue() == ( (Double) rightVlaue ).doubleValue() ? Boolean.TRUE
+			Boolean value = ( (Long) leftValue ).longValue() == ( (Double) rightValue ).doubleValue() ? Boolean.TRUE
 					: Boolean.FALSE;
+			result = new ValueObject( value, Type.BOOLEAN );
+		}
+		else if( leftType == Type.BOOLEAN && rightType == Type.BOOLEAN ) {
+			Boolean value = leftValue.equals( rightValue ) ? Boolean.TRUE : Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
 
