@@ -17,6 +17,10 @@
  */
 package org.ganges.expressionengine;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
@@ -38,6 +42,8 @@ public class TestEvaluator extends TestCase {
 	 * The expression context used by evaluator.
 	 */
 	private ExpressionContext expressionContext;
+
+	private int			   concurrentOpCount;
 
 	/**
 	 * Runs the test for parser.
@@ -107,7 +113,7 @@ public class TestEvaluator extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		expressionContext = null;
+		//		expressionContext = null;
 	}
 
 	public void testAritmaticExpression() throws ExpressionEngineException {
@@ -336,4 +342,121 @@ public class TestEvaluator extends TestCase {
 		assertEquals( 16.333333333333332, result1.doubleValue() );
 
 	}
+
+	// This test case is still not perfect and can leave many cases. 
+	// To make it strong, we need to add more cases, 
+	// and should run it on multi-cpu machine.
+	public void testConcurrentOperations() throws ExpressionEngineException {
+
+		List operationThreads = new ArrayList();
+
+		// create thread for various kind of operations so that we can run these
+		// in parallel to test the system with concurrent operations
+
+		for( int i = 0; i <= 50; i++ ) {
+			Thread arithmaticExpThread = new Thread( new Runnable() {
+
+				public void run() {
+					try {
+						TestEvaluator.this.testAritmaticExpression();
+					}
+					catch( ExpressionEngineException e ) {
+						fail( "We got exception. message[" + e.getMessage() + "]" );
+					}
+					finally {
+						++TestEvaluator.this.concurrentOpCount;
+					}
+				}
+			} );
+			operationThreads.add( arithmaticExpThread );
+		}
+
+		for( int i = 0; i <= 50; i++ ) {
+			Thread logicalExpThread = new Thread( new Runnable() {
+
+				public void run() {
+					try {
+						TestEvaluator.this.testLogicalExpression();
+					}
+					catch( ExpressionEngineException e ) {
+						fail( "We got exception. message[" + e.getMessage() + "]" );
+					}
+					finally {
+						++TestEvaluator.this.concurrentOpCount;
+					}
+				}
+			} );
+			operationThreads.add( logicalExpThread );
+		}
+
+		for( int i = 0; i <= 50; i++ ) {
+			Thread relationalExpThread = new Thread( new Runnable() {
+
+				public void run() {
+					try {
+						TestEvaluator.this.testRelationalExpression();
+					}
+					catch( ExpressionEngineException e ) {
+						fail( "We got exception. message[" + e.getMessage() + "]" );
+					}
+					finally {
+						++TestEvaluator.this.concurrentOpCount;
+					}
+				}
+			} );
+			operationThreads.add( relationalExpThread );
+		}
+
+		for( int i = 0; i <= 50; i++ ) {
+			Thread variableExpThread = new Thread( new Runnable() {
+
+				public void run() {
+					try {
+						TestEvaluator.this.testVariableExpression();
+					}
+					catch( ExpressionEngineException e ) {
+						fail( "We got exception. message[" + e.getMessage() + "]" );
+					}
+					finally {
+						++TestEvaluator.this.concurrentOpCount;
+					}
+				}
+			} );
+			operationThreads.add( variableExpThread );
+		}
+
+		for( int i = 0; i <= 50; i++ ) {
+			Thread functionExpThread = new Thread( new Runnable() {
+
+				public void run() {
+					try {
+						TestEvaluator.this.testFunctionExpression();
+					}
+					catch( ExpressionEngineException e ) {
+						fail( "We got exception. message[" + e.getMessage() + "]" );
+					}
+					finally {
+						++TestEvaluator.this.concurrentOpCount;
+					}
+				}
+			} );
+			operationThreads.add( functionExpThread );
+		}
+
+		for( Iterator iterator = operationThreads.iterator(); iterator.hasNext(); ) {
+			Thread operationThread = (Thread) iterator.next();
+			operationThread.start();
+
+		}
+
+		while( concurrentOpCount < 250 ) {
+			try {
+				Thread.sleep( 1000 );
+			}
+			catch( InterruptedException e ) {
+				fail( "We got exception. message[" + e.getMessage() + "]" );
+			}
+		}
+	}
+
 }

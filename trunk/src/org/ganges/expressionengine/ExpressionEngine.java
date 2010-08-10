@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.ganges.expressionengine.exceptions.ExpressionEngineException;
 import org.ganges.expressionengine.expressions.Expression;
 import org.ganges.types.ValueObject;
+import org.ganges.utils.Utilities;
 
 
 /**
@@ -74,6 +75,7 @@ public final class ExpressionEngine {
 	 */
 	public static Object evaluate( String expression, ExpressionContext expressionContext )
 			throws ExpressionEngineException {
+		Utilities.assertNotNullArgument( expressionContext, "expressionContext" );
 		Expression compiledExpression = compiler.compile( expression, expressionContext );
 		ValueObject expressionValue = compiledExpression.getValue();
 		LOGGER.debug( "expressionValue[" + ( expressionValue == null ? null : expressionValue.getValue() ) + "]" );
