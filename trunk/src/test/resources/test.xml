@@ -1,0 +1,13 @@
+<new1>
+	<book name="book1Name">
+		<writer name="Mohit"/>
+		<pages count="30"/>
+		<publisher>
+			<name value="Ram"/>
+			<age value="50"/>
+			<weight>
+				72
+			</weight>
+		</publisher>
+	</book>
+</new1>
