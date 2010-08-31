@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE grammar [
+  <!ELEMENT grammar (ignoreBlank, delimiters, binaryOperators, unaryOperators, functions, brackets, productionRules)>
+  <!ELEMENT ignoreBlank EMPTY>
+  <!ATTLIST ignoreBlank name CDATA #REQUIRED>
+  <!ELEMENT delimiters (delimiter*)>
+  <!ELEMENT delimiter EMPTY>
+  <!ATTLIST delimiter name CDATA #REQUIRED>
+  <!ELEMENT binaryOperators (operator*)>
+  <!ELEMENT unaryOperators (operator*)>
+  <!ELEMENT functions (operator*)>
+  <!ELEMENT operator EMPTY>
+  <!ATTLIST operator name CDATA #REQUIRED>
+  <!ATTLIST operator precedence CDATA #REQUIRED>
+  <!ELEMENT brackets (bracket*)>
+  <!ELEMENT bracket EMPTY>
+  <!ATTLIST bracket left CDATA #REQUIRED>
+  <!ATTLIST bracket right CDATA #REQUIRED>  
+  <!ELEMENT productionRules (productionRule*)>
+  <!ELEMENT productionRule EMPTY>
+  <!ATTLIST productionRule name CDATA #REQUIRED>
+  <!ATTLIST productionRule approchablePattern CDATA #REQUIRED>
+  <!ATTLIST productionRule allowedPattern CDATA #REQUIRED>
+]>
+<grammar>	
+
+	<ignoreBlank name="true"/>
+	
+	<delimiters>
+	
+		<delimiter name=" "/>
+		<delimiter name="+"/>
+		<delimiter name="-"/>		
+		<delimiter name="*"/>
+		<delimiter name="%"/>		
+		<delimiter name="/"/>
+		<delimiter name="("/>
+		<delimiter name=")"/>
+		<delimiter name=","/>		
+		<delimiter name="."/>		
+		<delimiter name="]"/>
+		<delimiter name="["/>
+		<delimiter name="="/>
+		<delimiter name="&gt;"/>
+		<delimiter name="&lt;"/>		
+		<delimiter name="&gt;="/>
+		<delimiter name="&lt;="/>
+		<delimiter name="!="/>
+		<delimiter name="!"/>
+		<delimiter name="&amp;&amp;"/>
+		<delimiter name="&amp;"/>
+		<delimiter name="||"/>
+		<delimiter name="|"/>
+		
+	</delimiters>	
+	
+	<binaryOperators>
+		<operator name="," precedence="0"/>
+		<operator name="||" precedence="1"/>
+		<operator name="&amp;&amp;" precedence="2"/>
+		
+		<operator name="=" precedence="3"/>
+		<operator name="!=" precedence="3"/>
+		
+		<operator name="&gt;" precedence="4"/>
+		<operator name="&lt;" precedence="4"/>		
+		<operator name="&gt;=" precedence="4"/>
+		<operator name="&lt;=" precedence="4"/>		
+		
+		<operator name="+" precedence="5"/>
+		<operator name="-" precedence="5"/>		
+
+		<operator name="*" precedence="6"/>
+		<operator name="%" precedence="6"/>		
+		<operator name="." precedence="6"/>
+		<operator name="/" precedence="6"/>	
+		<operator name="[]" precedence="6"/>	
+		
+	</binaryOperators>	
+	
+	<unaryOperators>
+	
+		<operator name="+" precedence="7"/>
+		<operator name="." precedence="7"/>		
+		<operator name="-" precedence="7"/>
+		<operator name="/" precedence="7"/>
+		<operator name="!" precedence="7"/>
+		<operator name="()" precedence="7"/>
+		
+	</unaryOperators>
+	
+	<functions>
+	
+		<operator name="pow" precedence="8"/>		
+		
+	</functions>
+	
+	<brackets>
+		<bracket left="(" right=")"/>
+		<bracket left="[" right="]"/>
+	</brackets>	
+	
+	<productionRules>
+		<productionRule name="Numeric Rule" approchablePattern="[0-9]+" allowedPattern="[0-9]+"/>
+		<productionRule name="Decimal Rule" approchablePattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)" allowedPattern="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)"/>
+		<productionRule name="Identifier Rule" approchablePattern="[A-Za-z_][A-Za-z_0-9]*" allowedPattern="[A-Za-z_][A-Za-z_0-9]*"/>
+		<productionRule name="String Rule" approchablePattern="'([^']|[\\]['])*" allowedPattern="'[^'\\]*(\\.[^'\\]*)*'"/>
+	</productionRules>	
+	
+</grammar>

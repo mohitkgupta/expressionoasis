@@ -1,0 +1,4 @@
+Support for ternary operator
+Support for XML expressions, using Xalan XPath
+	-XML Expressions are returning only String type value. We can change it to some specific type like Number, String etc in future or we should 	provide some type casting function
+Added more test cases 

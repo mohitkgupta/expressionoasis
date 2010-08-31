@@ -1,0 +1,4 @@
+Documentation Update
+Support for unary operators, so now expressions with unary operators are supported like -- (!false), (!false && true), (-3 + 2/-4) etc
+
+Please refer to http://xpressionengine.blogspot.com/ and http://knowledge-friendz.blogspot.com/ for further details

@@ -1,0 +1,11 @@
+ *  Ternary Operator - true ? 4 : 3 - DONE
+ * 	XML Operators
+ *  UI -- http://smart-math-calculator-linux.runiter-calculators.qarchive.org/
+ *  	Swing and Applet for web
+ *  Compiled Expressions - in XML format And/OR stream
+ *  Change license so that contributions can come back
+ *  Change in Type for 'assignable' check. Also include Any Type handling. Method for getting best type for two types where both of these can be 	  assigned
+ *  Change for returning best possible type from ternary operator
+*  include other assignments operators, if required
+* function for type casting
+* Event firing with context on property set 
