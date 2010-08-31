@@ -1,0 +1,3 @@
+Download lib.rar
+Extra to project root directory
+Run ant using build.bat. It will compile the project, run the test cases, generate the reports for test cases in report folder and generate the api documents. 
