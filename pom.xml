@@ -27,7 +27,8 @@
             <artifactId>utilities</artifactId>
             <version>1.1</version>
             <type>jar</type>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Utilities-1.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
