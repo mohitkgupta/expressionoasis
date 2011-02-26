@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<expressionOasis>
+
+    <cacheCompiledExpressions>True</cacheCompiledExpressions>
+
+    <functionProviders>
+        <functionProvider className="org.vedantatree.expressionoasis.extensions.DefaultFunctionProvider">
+            <constructorArgs>
+                <constructorArg className="java.lang.Class" value="org.vedantatree.expressionoasis.extensions.MathFunctions"/>
+            </constructorArgs>
+        </functionProvider>
+        <functionProvider className="org.vedantatree.expressionoasis.extensions.DefaultFunctionProvider" >
+            <constructorArgs>
+                <constructorArg className="java.lang.Class" value="org.vedantatree.expressionoasis.extensions.StringFunctions"/>
+            </constructorArgs>
+        </functionProvider>
+        <functionProvider className="org.vedantatree.expressionoasis.extensions.customfunctions.CustomFunctionProvider">
+            <constructorArgs>
+                <constructorArg className="java.lang.Class" value="org.vedantatree.expressionoasis.extensions.customfunctions.xml.XMLCustomFunctionSourceProvider"/>
+            </constructorArgs>
+        </functionProvider>
+        <functionProvider className="org.vedantatree.expressionoasis.extensions.XMLFunctionProvider"/>
+    </functionProviders>
+
+    <expressions>
+        <expression name="?" className="org.vedantatree.expressionoasis.expressions.booleanexp.ConditionTernaryExpression" type="binary"/>
+        <expression name=":" className="org.vedantatree.expressionoasis.expressions.booleanexp.ResultTernaryExpression" type="binary"/>
+
+        <expression name="||" className="org.vedantatree.expressionoasis.expressions.booleanexp.OrExpression" type="binary"/>
+        <expression name="&amp;&amp;" className="org.vedantatree.expressionoasis.expressions.booleanexp.AndExpression" type="binary"/>
+        <expression name="!" className="org.vedantatree.expressionoasis.expressions.booleanexp.NotExpression" type="unary"/>
+
+        <expression name="==" className="org.vedantatree.expressionoasis.expressions.relational.EQExpression" type="binary"/>
+        <expression name="!=" className="org.vedantatree.expressionoasis.expressions.relational.NEExpression" type="binary"/>
+        <expression name="&gt;" className="org.vedantatree.expressionoasis.expressions.relational.GTExpression" type="binary"/>
+        <expression name="&lt;" className="org.vedantatree.expressionoasis.expressions.relational.LTExpression" type="binary"/>
+        <expression name="&gt;=" className="org.vedantatree.expressionoasis.expressions.relational.GTEExpression" type="binary"/>
+        <expression name="&lt;=" className="org.vedantatree.expressionoasis.expressions.relational.LTEExpression" type="binary"/>
+
+        <expression name="+" className="org.vedantatree.expressionoasis.expressions.arithmatic.PlusExpression" type="unary"/>
+        <expression name="-" className="org.vedantatree.expressionoasis.expressions.arithmatic.MinusExpression" type="unary"/>
+        <expression name="+" className="org.vedantatree.expressionoasis.expressions.arithmatic.AddExpression" type="binary"/>
+        <expression name="-" className="org.vedantatree.expressionoasis.expressions.arithmatic.SubtractExpression" type="binary"/>
+        <expression name="*" className="org.vedantatree.expressionoasis.expressions.arithmatic.MultiplyExpression" type="binary"/>
+        <expression name="/" className="org.vedantatree.expressionoasis.expressions.arithmatic.DivideExpression" type="binary"/>
+        <expression name="%" className="org.vedantatree.expressionoasis.expressions.arithmatic.RemainderExpression" type="binary"/>
+        <expression name="[]" className="org.vedantatree.expressionoasis.expressions.arithmatic.ArrayIndexExpression" type="binary"/>
+
+        <expression name="." className="org.vedantatree.expressionoasis.expressions.property.PropertyExpression" type="binary"/>
+        <expression name="," className="org.vedantatree.expressionoasis.expressions.property.ArgumentExpression" type="binary"/>
+
+        <expression name="()" className="org.vedantatree.expressionoasis.expressions.arithmatic.ParanthesisExpression" type="unary"/>
+        <expression name="." className="org.vedantatree.expressionoasis.expressions.property.UnaryPropertyExpression" type="unary"/>
+
+        <expression name="&amp;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWAndExpression" type="binary"/>
+        <expression name="|" className="org.vedantatree.expressionoasis.expressions.bitwise.BWOrExpression" type="binary"/>
+        <expression name="^" className="org.vedantatree.expressionoasis.expressions.bitwise.BWXorExpression" type="binary"/>
+        <expression name="~" className="org.vedantatree.expressionoasis.expressions.bitwise.BWComplementExpression" type="unary"/>
+        <expression name="&lt;&lt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWSignedLeftShiftExpression" type="binary"/>
+        <expression name="&gt;&gt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWSignedRightShiftExpression" type="binary"/>
+        <expression name="&gt;&gt;&gt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWUnsignedRightShiftExpression" type="binary"/>
+
+        <expression name="[0-9]+" className="org.vedantatree.expressionoasis.expressions.NumericExpression" type="operand"/>
+        <expression name="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)" className="org.vedantatree.expressionoasis.expressions.DecimalExpression" type="operand"/>
+        <expression name="[A-Za-z_][A-Za-z_0-9]*" className="org.vedantatree.expressionoasis.expressions.IdentifierExpression" type="operand"/>
+        <expression name="'[^'\\]*(\\.[^'\\]*)*'" className="org.vedantatree.expressionoasis.expressions.StringExpression" type="operand"/>
+        <expression name="[t][r][u][e]" className="org.vedantatree.expressionoasis.expressions.BooleanExpression" type="operand"/>
+        <expression name="[f][a][l][s][e]" className="org.vedantatree.expressionoasis.expressions.BooleanExpression" type="operand"/>
+        <expression name="[n][u][l][l]" className="org.vedantatree.expressionoasis.expressions.NullExpression" type="operand"/>
+    </expressions>
+    
+</expressionOasis>
