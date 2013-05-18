@@ -21,7 +21,7 @@
 
 	
 	<logger name="org.vedantatree">
-		<level value="info" />
+		<level value="debug" />
 		<appender-ref ref="console" />
 		<!--<appender-ref ref="LOG_FILE"/>-->
 	</logger>

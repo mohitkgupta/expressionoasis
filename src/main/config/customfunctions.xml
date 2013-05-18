@@ -22,4 +22,9 @@
             return condition == Boolean.TRUE ? whenTrue : whenFalse;
         }
     </function>
+    <function>
+	public Integer testCustomNoArg( ) {
+		return new Integer(121);
+	}
+    </function>
 </functions>
