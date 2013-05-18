@@ -49,6 +49,9 @@ public class AddExpression extends BinaryOperatorExpression {
 		addTypePair( AddExpression.class, Type.STRING, Type.DOUBLE, Type.STRING );
 		addTypePair( AddExpression.class, Type.STRING, Type.LONG, Type.STRING );
 
+		addTypePair( AddExpression.class, Type.LONG, Type.INTEGER, Type.LONG );
+		addTypePair( AddExpression.class, Type.INTEGER, Type.LONG, Type.LONG );
+
 		// nullable type support
 		addTypePair( AddExpression.class, Type.OBJECT, Type.OBJECT, Type.OBJECT );
 		addTypePair( AddExpression.class, Type.LONG, Type.OBJECT, Type.LONG );

@@ -591,6 +591,14 @@ public class TestEvaluator {
 		Long result = (Long) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( null, result );
 	}
+	
+	// issue#7
+	@Test
+	public void test_custom_function_with_no_arg() throws ExpressionEngineException {
+		String expression = "testCustomNoArg() + 10";
+		Long result = (Long) ExpressionEngine.evaluate( expression, expressionContext );
+		assertEquals( new Long(131), result );
+	}
 
 	@Test
 	public void test_string_array() throws ExpressionEngineException {

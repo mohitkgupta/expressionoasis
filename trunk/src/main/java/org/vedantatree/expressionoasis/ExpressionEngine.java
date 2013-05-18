@@ -109,7 +109,15 @@ public final class ExpressionEngine {
 	 */
 	public static Expression compileExpression( String expression, ExpressionContext expressionContext, boolean validate )
 			throws ExpressionEngineException {
+//		try
+//		{
 		return compiler.compile( expression, expressionContext, validate );
+//		}
+//		catch(ExpressionEngineException eee)
+//		{
+//			LOGGER.error("error", eee);
+//			throw eee;
+//		}
 	}
 
 	/**
