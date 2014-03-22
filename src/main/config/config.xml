@@ -2,7 +2,12 @@
 <expressionOasis>
 
     <cacheCompiledExpressions>True</cacheCompiledExpressions>
+    <grammarClass>org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar</grammarClass>
 
+	<!--
+		Function providers either can be added to the ExpressionContext using API or these can be defined here. 
+		During initialization, ExpressionOasis will register these with ExpressionContext 
+	 -->
     <functionProviders>
         <functionProvider className="org.vedantatree.expressionoasis.extensions.DefaultFunctionProvider">
             <constructorArgs>

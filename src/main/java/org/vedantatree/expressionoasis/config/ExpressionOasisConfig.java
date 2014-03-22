@@ -22,67 +22,94 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Assert;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.vedantatree.expressionoasis.extensions.FunctionProvider;
+import org.vedantatree.expressionoasis.grammar.Grammar;
 
 
 /**
  * The configuration settings for ExpressionOasis. These are loaded from an XML file
  * by the Simple XML framework based on the annotations.
- *
+ * 
  * @author Kris Marwood
  * @author 1.0
  */
 
 @Root(name = "expressionOasisConfig")
-public class ExpressionOasisConfig {
+public class ExpressionOasisConfig
+{
 
 	@Element(name = "cacheCompiledExpressions")
-	private boolean					  cacheCompiledExpressions;
+	private boolean							cacheCompiledExpressions;
+
+	@Element(name = "grammarClass")
+	private String							grammarClass;
 
 	@ElementList(name = "functionProviders", entry = "functionProvider")
-	private List<FunctionProviderConfig> functionProviderConfigs;
+	private List<FunctionProviderConfig>	functionProviderConfigs;
 
 	@ElementList(name = "expressions", entry = "expression")
-	private List<ExpressionConfig>	   expressionConfigs;
+	private List<ExpressionConfig>			expressionConfigs;
 
-	private final List<FunctionProvider> functionProviders = new ArrayList<FunctionProvider>();
+	private final List<FunctionProvider>	functionProviders	= new ArrayList<FunctionProvider>();
 
 	/**
 	 * Determines whether the expression engine should cache RPN token stacks for expression strings
-	 *
+	 * 
 	 * @return true if the expression engine should cache RPN token stacks for expression strings
 	 */
-	public boolean shouldCacheCompiledExpressions() {
+	public boolean shouldCacheCompiledExpressions()
+	{
 		return cacheCompiledExpressions;
 	}
 
 	/**
 	 * Retieves a list of expressions configured for the expression engine.
-	 *
+	 * 
 	 * @return a list of expressions configured for the expression engine.
 	 */
-	public List<ExpressionConfig> getExpressionConfigs() {
+	public List<ExpressionConfig> getExpressionConfigs()
+	{
 		return Collections.unmodifiableList( expressionConfigs );
 	}
 
 	/**
 	 * Retrieves a list of function providers configured for the expression engine
-	 *
+	 * 
 	 * @return a list of function providers configured for the expression engine
 	 */
-	public List<FunctionProvider> getFunctionProviders() {
-		if( functionProviders.isEmpty() ) {
-			synchronized( functionProviders ) {
-				if( functionProviders.isEmpty() ) {
-					for( FunctionProviderConfig functionProviderConfig : functionProviderConfigs ) {
+	public List<FunctionProvider> getFunctionProviders()
+	{
+		if( functionProviders.isEmpty() )
+		{
+			synchronized( functionProviders )
+			{
+				if( functionProviders.isEmpty() )
+				{
+					for( FunctionProviderConfig functionProviderConfig : functionProviderConfigs )
+					{
 						functionProviders.add( functionProviderConfig.getFunctionProvider() );
 					}
 				}
 			}
 		}
 		return Collections.unmodifiableList( functionProviders );
+	}
+
+	public Grammar getGrammar()
+	{
+		try
+		{
+			return (Grammar) Class.forName( grammarClass ).newInstance();
+		}
+		catch( Exception e )
+		{
+			throw new RuntimeException(
+					"Problem while instantiating the Grammar object. Grammar Class specified in config.xml["
+							+ grammarClass + "]", e );
+		}
 	}
 }

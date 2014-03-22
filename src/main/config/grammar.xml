@@ -116,9 +116,14 @@
 		<operator name="()" precedence="12"/>
 	</unaryOperators>
 	
+	<!-- 
+		Functions can be defined here, or can be added directly to DefaultXMLGrammer using API
+	 -->
 	<functions>
-
-        </functions>
+		<!-- 
+		<operator name="anyCustomFunctionName" precedence="13"/>
+		 -->
+    </functions>
 	
 	<brackets>
 		<bracket left="(" right=")"/>

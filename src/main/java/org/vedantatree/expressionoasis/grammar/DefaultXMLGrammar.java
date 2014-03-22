@@ -63,11 +63,6 @@ public class DefaultXMLGrammar implements Grammar {
 	private static Log					 LOGGER			   = LogFactory.getLog( DefaultXMLGrammar.class );
 
 	/**
-	 * Static instance of the grammar.
-	 */
-	private static final DefaultXMLGrammar instance			 = new DefaultXMLGrammar();
-
-	/**
 	 * File path for grammar configuration.
 	 */
 	public static final String			 FILE_PATH			= "grammar.xml";
@@ -212,17 +207,8 @@ public class DefaultXMLGrammar implements Grammar {
 	/**
 	 * Constructs the grammar
 	 */
-	private DefaultXMLGrammar() {
+	public DefaultXMLGrammar() {
 		configure();
-	}
-
-	/**
-	 * Gets the shared instance of the grammar.
-	 * 
-	 * @return the singleton instance of the grammar.
-	 */
-	public static final DefaultXMLGrammar getInstance() {
-		return instance;
 	}
 
 	/**

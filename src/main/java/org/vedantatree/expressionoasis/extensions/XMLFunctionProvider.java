@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.vedantatree.exceptions.XException;
 import org.vedantatree.expressionoasis.ExpressionContext;
+import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.ExpressionEngineConstants;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.ExpressionFactory;
@@ -69,11 +70,7 @@ public class XMLFunctionProvider implements FunctionProvider {
 	private Document		  xmlDocument;
 
 	public XMLFunctionProvider() {
-		ExpressionFactory factory = ExpressionFactory.getInstance();
-		DefaultXMLGrammar grammar = DefaultXMLGrammar.getInstance();
-
-		factory.addFunction( "xml" );
-		grammar.addFunction( "xml" );
+		ExpressionEngine.getGrammar().addFunction( "xml" );
 	}
 
 	public Type getFunctionType( String functionName, Type[] parameterTypes ) throws ExpressionEngineException {
