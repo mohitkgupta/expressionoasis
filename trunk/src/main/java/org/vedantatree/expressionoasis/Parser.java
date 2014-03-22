@@ -71,12 +71,17 @@ public final class Parser
 	 */
 	private final Grammar	grammar;
 
-	// /**
-	// * Constructs the Parser with default DefaultXMLGrammar instance
-	// */
-	// public Parser() {
-	// this( DefaultXMLGrammar.getInstance() );
-	// }
+	/**
+	 * Constructs the Parser with default DefaultXMLGrammar instance
+	 * 
+	 * @deprecated seems of no use, since Parser is always created from Compiler with Grammar instance
+	 */
+	public Parser()
+	{
+		// this( DefaultXMLGrammar.getInstance() );
+		throw new UnsupportedOperationException(
+				"This constructor is no longer supported, since Parse is always initiated from Compiler with Grammar instance" );
+	}
 
 	/**
 	 * Constructs the Parser with given DefaultXMLGrammar object
