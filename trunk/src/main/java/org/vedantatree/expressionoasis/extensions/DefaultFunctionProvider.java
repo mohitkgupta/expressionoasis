@@ -28,9 +28,11 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.vedantatree.expressionoasis.ExpressionContext;
+import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.ExpressionFactory;
 import org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar;
+import org.vedantatree.expressionoasis.grammar.Grammar;
 import org.vedantatree.types.MethodKey;
 import org.vedantatree.types.Type;
 import org.vedantatree.types.ValueObject;
@@ -98,7 +100,7 @@ public class DefaultFunctionProvider implements FunctionProvider {
 	 */
 	private void registerFunctions() {
 		ExpressionFactory factory = ExpressionFactory.getInstance();
-		DefaultXMLGrammar grammar = DefaultXMLGrammar.getInstance();
+		Grammar grammar = ExpressionEngine.getGrammar();
 
 		Method[] methods = functionProviderClass.getDeclaredMethods();
 		for( int i = 0; i < methods.length; i++ ) {

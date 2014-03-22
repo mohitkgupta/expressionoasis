@@ -37,47 +37,56 @@ import org.vedantatree.expressionoasis.grammar.Grammar;
 
 
 /**
- * This class performs the compilation operation in expression evaluation 
- * process. 
- * <br>
- * It parses the expression using Parser, which returns it list of expression 
+ * This class performs the compilation operation in expression evaluation
+ * process. <br>
+ * It parses the expression using Parser, which returns it list of expression
  * tokens as per rules specified with DefaultXMLGrammar. Compiler restructure these tokens
- * in Reverse Polish Notation and then create the Expression Object's tree for 
+ * in Reverse Polish Notation and then create the Expression Object's tree for
  * all the tokens.
  * 
  * TODO
- * 	Precedence can be stored with Token itself during parsing process - probably not much benefit as precedence is not used repeatedly
- *  can we set operator, function etc values to token itself from parsing process?
- *  Give example of expression compilation and expression tree
+ * Precedence can be stored with Token itself during parsing process - probably not much benefit as precedence is not
+ * used repeatedly
+ * can we set operator, function etc values to token itself from parsing process?
+ * Give example of expression compilation and expression tree
  * 
  * @author Mohit Gupta
  * @author Parmod Kamboj
  * @version 1.0
- *
- * Added support for caching of compiled expressions to improve performance for applications
- * which repeatedly evaluate the same expressions against a different set of variables.
- * This can be turned on or off in the XML config file.
- *
- * Modified to use collections that are not synchronized in order to reduce monitor conention.
- * Still uses Stack, which wraps Vector, which is synchronized. Consider using another Stack
- * implementation such as Google Collections.
- *
+ * 
+ *          Added support for caching of compiled expressions to improve performance for applications
+ *          which repeatedly evaluate the same expressions against a different set of variables.
+ *          This can be turned on or off in the XML config file.
+ * 
+ *          Modified to use collections that are not synchronized in order to reduce monitor conention.
+ *          Still uses Stack, which wraps Vector, which is synchronized. Consider using another Stack
+ *          implementation such as Google Collections.
+ * 
  * @author Kris Marwood
  * @version 1.1
+ * 
+ * 
+ *          Made Grammar Configurable from config.xml. Now Grammar class can be defined in config.xml and Compiler will
+ *          pick it from there. It adds facility to use any custom Grammar object
+ * 
+ * @author Mohit Gupta
+ * @version 1.2
+ * @since March 2014
  */
-public class Compiler {
+public class Compiler
+{
 
-	private static Log								LOGGER = LogFactory.getLog( Compiler.class );
+	private static Log									LOGGER	= LogFactory.getLog( Compiler.class );
 
 	/**
 	 * DefaultXMLGrammar instance used to parse the Expression by Parser
 	 */
-	private final Grammar							 grammar;
+	private final Grammar								grammar;
 
 	/**
 	 * Parser object used to parse the Expression
 	 */
-	private final Parser							  parser;
+	private final Parser								parser;
 
 	/**
 	 * Specifies whether compiled RPN tokens for a given expression string should be cached.
@@ -85,18 +94,19 @@ public class Compiler {
 	 * case caching would be a waste of resources. Other applications may re-evaluate the same
 	 * expressions repeatedly, making recompilation wasteful.
 	 */
-	private final boolean							 expressionCachingEnabled;
+	private final boolean								expressionCachingEnabled;
 
 	/**
 	 * Cache of RPN tokens produced by the parser / compiler for expressions
 	 */
-	private final Map<String, Stack<ExpressionToken>> compiledExpressionRPNTokenCache;
+	private final Map<String, Stack<ExpressionToken>>	compiledExpressionRPNTokenCache;
 
 	/**
 	 * Constructs the Compiler with default DefaultXMLGrammar Instance
 	 */
-	public Compiler() {
-		this( DefaultXMLGrammar.getInstance() );
+	public Compiler()
+	{
+		this( ConfigFactory.getConfig().getGrammar() );
 	}
 
 	/**
@@ -105,49 +115,51 @@ public class Compiler {
 	 * @param grammar the grammar using which compiler will parse the expression
 	 * @throws IllegalArgumentException if the grammar object is null
 	 */
-	public Compiler( Grammar grammar ) {
-		if( grammar == null ) {
+	public Compiler( Grammar grammar )
+	{
+		if( grammar == null )
+		{
 			throw new IllegalArgumentException( "Grammar must not be null for the parser." );
 		}
 
 		this.grammar = grammar;
 		this.parser = new Parser( grammar );
 
-		ExpressionOasisConfig config = ConfigFactory.getConfig();
-		expressionCachingEnabled = config.shouldCacheCompiledExpressions();
-		if( expressionCachingEnabled ) {
-			if( LOGGER.isDebugEnabled() ) {
-				LOGGER.debug( "Expression caching is enabled" );
-			}
-			compiledExpressionRPNTokenCache = new HashMap<String, Stack<ExpressionToken>>();
-		}
-		else {
-			if( LOGGER.isDebugEnabled() ) {
-				LOGGER.debug( "Expression caching is disabled" );
-			}
-			compiledExpressionRPNTokenCache = null;
-		}
+		expressionCachingEnabled = ConfigFactory.getConfig().shouldCacheCompiledExpressions();
+
+		LOGGER.debug( "expression-caching-enabled[" + expressionCachingEnabled + "]" );
+		compiledExpressionRPNTokenCache = expressionCachingEnabled ? new HashMap<String, Stack<ExpressionToken>>()
+				: null;
+	}
+	
+	Grammar getGrammar ()
+	{
+		return grammar;
 	}
 
 	/**
 	 * Retrieves a Stack of tokens in RPN that represents the expression
-	 *
+	 * 
 	 * @param expression the expression to parse
 	 * @return the stack of restructured Expression Tokens in 'RPN'
 	 * @throws ExpressionEngineException
 	 */
-	protected Stack<ExpressionToken> getTokensInRPN( String expression ) throws ExpressionEngineException {
+	protected Stack<ExpressionToken> getTokensInRPN( String expression ) throws ExpressionEngineException
+	{
 		Stack<ExpressionToken> tokensInRPN = null;
 
-		if( expressionCachingEnabled ) {
+		if( expressionCachingEnabled )
+		{
 			tokensInRPN = compiledExpressionRPNTokenCache.get( expression );
 		}
 
-		if( tokensInRPN == null ) {
+		if( tokensInRPN == null )
+		{
 			List<ExpressionToken> expressionTokens = parser.parse( expression );
 			tokensInRPN = restructureTokensInRPN( expressionTokens );
 
-			if( expressionCachingEnabled ) {
+			if( expressionCachingEnabled )
+			{
 				compiledExpressionRPNTokenCache.put( expression, tokensInRPN );
 			}
 		}
@@ -163,7 +175,8 @@ public class Compiler {
 	 * @throws ExpressionEngineException if Expression Tokens are invalid
 	 */
 	private Stack<ExpressionToken> restructureTokensInRPN( List<ExpressionToken> expressionTokensList )
-			throws ExpressionEngineException {
+			throws ExpressionEngineException
+	{
 
 		// stack to collect operators
 		Stack<ExpressionToken> operatorStack = new Stack<ExpressionToken>();
@@ -171,54 +184,61 @@ public class Compiler {
 		// stack to collect restructured expression tokens
 		Stack<ExpressionToken> rpnStack = new Stack<ExpressionToken>();
 
-		/*Pseudo code
+		/*
+		 * Pseudo code
 		 * Iterate over tokens
 		 * If current token is a operator
-		 * 		check the tokens on operator stack till it get emptied
-		 * 			if top token is an operator and its precedence is >= current token precedence
-		 * 				remove from opstack and add to rpnstack 
-		 * 		add current token to operator stack
+		 * check the tokens on operator stack till it get emptied
+		 * if top token is an operator and its precedence is >= current token precedence
+		 * remove from opstack and add to rpnstack
+		 * add current token to operator stack
 		 * If current token is bracket
-		 * 		If current token is left bracket
-		 * 			add it to operator stack
-		 * 		If current token is right bracket
-		 * 			pop the tokens from operator stack till we get the left bracket
-		 * 			and add these to rpn stack
-		 * 			if we found left bracket
-		 * 				create bracket pair and add to rpn stack
-		 * Otherwise 
-		 * 		push the token to rpn stack
+		 * If current token is left bracket
+		 * add it to operator stack
+		 * If current token is right bracket
+		 * pop the tokens from operator stack till we get the left bracket
+		 * and add these to rpn stack
+		 * if we found left bracket
+		 * create bracket pair and add to rpn stack
+		 * Otherwise
+		 * push the token to rpn stack
 		 * If operator stack is not empty
-		 * 		empty it from top and push all tokens to rpn stack
+		 * empty it from top and push all tokens to rpn stack
 		 * 
-		 * RPN is ready!!		
+		 * RPN is ready!!
 		 */
 
 		ExpressionToken lastToken = null;
-		for( Iterator<ExpressionToken> iter = expressionTokensList.iterator(); iter.hasNext(); ) {
+		for( Iterator<ExpressionToken> iter = expressionTokensList.iterator(); iter.hasNext(); )
+		{
 			ExpressionToken currentToken = (ExpressionToken) iter.next();
 
-			// Put the operator/function on operator stack, 
+			// Put the operator/function on operator stack,
 			// and shift higher precedence operator to RPN stack from top
 
-			if( grammar.isOperator( currentToken ) ) {
+			if( grammar.isOperator( currentToken ) )
+			{
 
 				// fix for bug#1 @ googlecode
-				// handle unary operators, if unary operators are in the beginning of expression 
-				if( operatorStack.isEmpty() && rpnStack.isEmpty() ) {
+				// handle unary operators, if unary operators are in the beginning of expression
+				if( operatorStack.isEmpty() && rpnStack.isEmpty() )
+				{
 					operatorStack.push( new UnaryToken( currentToken ) );
 				}
 				// or if unary operator are after left bracket
-				else if( grammar.isOperator( lastToken ) || grammar.isLeftBracket( lastToken ) ) {
+				else if( grammar.isOperator( lastToken ) || grammar.isLeftBracket( lastToken ) )
+				{
 					operatorStack.push( new UnaryToken( currentToken ) );
 				}
-				else {
+				else
+				{
 
 					LOGGER.debug( "currentTokenPP[" + currentToken + "]" );
 					int currentTokenPrecedence = grammar.getPrecedenceOrder( currentToken, isUnary( currentToken ) );
 
 					// Remove high precedence operator from opStack and add to RPN stack
-					while( !operatorStack.isEmpty() ) {
+					while( !operatorStack.isEmpty() )
+					{
 						ExpressionToken peekToken = (ExpressionToken) operatorStack.peek();
 
 						// if the topmost token on stack is an operator
@@ -227,11 +247,13 @@ public class Compiler {
 
 						if( grammar.isOperator( peekToken )
 								&& currentTokenPrecedence <= grammar
-										.getPrecedenceOrder( peekToken, isUnary( peekToken ) ) ) {
+										.getPrecedenceOrder( peekToken, isUnary( peekToken ) ) )
+						{
 							operatorStack.pop();
 							rpnStack.push( peekToken );
 						}
-						else {
+						else
+						{
 							break;
 						}
 					}
@@ -241,26 +263,31 @@ public class Compiler {
 			}
 
 			// Work for brackets
-			else if( grammar.isBracket( currentToken ) ) {
+			else if( grammar.isBracket( currentToken ) )
+			{
 
-				if( grammar.isLeftBracket( currentToken ) ) {
+				if( grammar.isLeftBracket( currentToken ) )
+				{
 					// Push the bracket onto the opStack
 					operatorStack.push( currentToken );
 				}
 
 				// Else pop the elements from opStack until left
-				// bracket ffror this right bracket is found. 
+				// bracket ffror this right bracket is found.
 				// throw an error if no left bracket is found
-				else {
+				else
+				{
 					boolean leftBracketFound = false;
 
-					while( !operatorStack.isEmpty() ) {
+					while( !operatorStack.isEmpty() )
+					{
 						ExpressionToken peekOperator = (ExpressionToken) operatorStack.peek();
 						leftBracketFound = grammar.isLeftBracket( peekOperator );
 						operatorStack.pop();
 
 						// TODO: collect more cases of unary and simple token and add more examples
-						if( leftBracketFound ) {
+						if( leftBracketFound )
+						{
 							// Putting the bracket pair on rpnStack
 							// to handle the array [] - binary, and function () - unary cases
 							String value = peekOperator.getValue()
@@ -275,7 +302,8 @@ public class Compiler {
 						rpnStack.push( peekOperator );
 					}
 
-					if( !leftBracketFound ) {
+					if( !leftBracketFound )
+					{
 						throw new ExpressionEngineException( "Left bracket is missing for \"" + currentToken.getValue()
 								+ "\" at " + currentToken.getIndex() );
 					}
@@ -283,19 +311,22 @@ public class Compiler {
 			}
 
 			// Work for operands
-			else {
+			else
+			{
 				rpnStack.push( currentToken );
 			}
 			lastToken = currentToken;
 		}
 
 		// push rest of the tokens to RPN stack
-		while( !operatorStack.isEmpty() ) {
+		while( !operatorStack.isEmpty() )
+		{
 			ExpressionToken element = (ExpressionToken) operatorStack.peek();
 
 			// No enclosing bracket if any left bracket is found
 			// Throw the error in this case.
-			if( grammar.isLeftBracket( element.getValue() ) ) {
+			if( grammar.isLeftBracket( element.getValue() ) )
+			{
 				throw new ExpressionEngineException( "Right bracket is missing for \"" + element.getValue() + "\" at "
 						+ element.getIndex() );
 			}
@@ -316,14 +347,16 @@ public class Compiler {
 	 * @throws ExpressionEngineException
 	 */
 	public Expression compile( String expression, ExpressionContext expressionContext, boolean validate )
-			throws ExpressionEngineException {
+			throws ExpressionEngineException
+	{
 
 		Stack<ExpressionToken> rpnTokens = getTokensInRPN( expression );
 
 		Stack<Expression> expressionStack = new Stack<Expression>();
 		int size = rpnTokens.size();
 
-		for( int i = 0; i < size; i++ ) {
+		for( int i = 0; i < size; i++ )
+		{
 			ExpressionToken token = rpnTokens.get( i );
 
 			// By default expression is for operand element.
@@ -331,26 +364,30 @@ public class Compiler {
 			Object initializationParameters = token.getValue();
 
 			// Expression for operator
-			if( grammar.isOperator( token ) ) {
+			if( grammar.isOperator( token ) )
+			{
 
 				// Expression for function/unary operator
-				if( isUnary( token ) ) {
+				if( isUnary( token ) )
+				{
 					type = grammar.isFunction( token.getValue() ) ? ExpressionFactory.FUNCTION
 							: ExpressionFactory.UNARY;
 					/*
 					 * Earlier we were assuming that expressionStack must have
-					 * at least one expression in case of Unary Expression. 
-					 * Hence we were asserting for at least one expression in 
-					 * expression stack here. But this assumption failed in case 
-					 * of function call with zero arguments. So the assertion 
+					 * at least one expression in case of Unary Expression.
+					 * Hence we were asserting for at least one expression in
+					 * expression stack here. But this assumption failed in case
+					 * of function call with zero arguments. So the assertion
 					 * has been removed now.
 					 * 
 					 * @see Bug ID: 1691820 @ sourceforge
 					 */
 					initializationParameters = expressionStack.size() == 0 ? null : expressionStack.pop();
 				}
-				else {
-					if( expressionStack.size() < 2 ) {
+				else
+				{
+					if( expressionStack.size() < 2 )
+					{
 						throw new ExpressionEngineException(
 								"Something wrong while compiling expression, as expression stack has less than 2 expression in case of binray expression. expressionStack["
 										+ expressionStack + "]" );
@@ -360,15 +397,18 @@ public class Compiler {
 
 					Expression rightExpression = expressionStack.pop();
 					Expression leftExpression = expressionStack.pop();
-					initializationParameters = new Expression[] { leftExpression, rightExpression };
+					initializationParameters = new Expression[]
+					{ leftExpression, rightExpression };
 				}
 			}
 
-			if( LOGGER.isDebugEnabled() ) {
+			if( LOGGER.isDebugEnabled() )
+			{
 				LOGGER.debug( "token[" + token + "]" );
 			}
 			Expression compiledExpression = ExpressionFactory.getInstance().createExpression( token.getValue(), type );
-			if( LOGGER.isDebugEnabled() ) {
+			if( LOGGER.isDebugEnabled() )
+			{
 				LOGGER.debug( "expression[" + compiledExpression + "]" );
 			}
 			expressionContext
@@ -378,7 +418,8 @@ public class Compiler {
 			expressionStack.push( compiledExpression );
 		}
 
-		if( expressionStack.size() != 1 ) {
+		if( expressionStack.size() != 1 )
+		{
 			throw new ExpressionEngineException(
 					"Unable to compile expression. Expression Stack size should be one here. expressionStackSize["
 							+ expressionStack.size() + "] rpnTokens[" + rpnTokens + "]" );
@@ -391,10 +432,10 @@ public class Compiler {
 	 * Checks whether the operator is used as unary operator or not.
 	 * 
 	 * @param token
-	 * @return <code>true</code> if the token is used as unary
-	 *		 <code>false</code> otherwise.
+	 * @return <code>true</code> if the token is used as unary <code>false</code> otherwise.
 	 */
-	private boolean isUnary( ExpressionToken token ) {
+	private boolean isUnary( ExpressionToken token )
+	{
 		return token instanceof UnaryToken || grammar.isFunction( token ); // || grammar.isUnary( token );
 	}
 
@@ -402,14 +443,16 @@ public class Compiler {
 	 * This is just an indicator class of operator token that this operator is
 	 * used as unary operator
 	 */
-	private class UnaryToken extends ExpressionToken {
+	private class UnaryToken extends ExpressionToken
+	{
 
 		/**
 		 * Constructs the UnaryToken
 		 * 
 		 * @param token
 		 */
-		public UnaryToken( ExpressionToken token ) {
+		public UnaryToken( ExpressionToken token )
+		{
 			this( token.getValue(), token.getIndex() );
 		}
 
@@ -419,7 +462,8 @@ public class Compiler {
 		 * @param value
 		 * @param index
 		 */
-		public UnaryToken( String value, int index ) {
+		public UnaryToken( String value, int index )
+		{
 			super( value, index );
 		}
 
@@ -427,22 +471,24 @@ public class Compiler {
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return "{u:" + getValue() + ", " + getIndex() + "}";
 		}
 	}
 
-	/** Not in use currently
+	/**
+	 * Not in use currently
 	 * 
 	 * Resolves the unary operator. Makes them as binary opertor with the same
 	 * semantic as with unary operator.
 	 * 
 	 * @param tokenList
-	 *            the list of tokens from expression.
+	 *        the list of tokens from expression.
 	 * @return the list of expression with resolved unary operators.
 	 * @throws ExpressionEngineException
-	 *             if the expression is invalid or operator can be used as unary
-	 *             while being used as unary in expression.
+	 *         if the expression is invalid or operator can be used as unary
+	 *         while being used as unary in expression.
 	 */
 
 	/*
@@ -451,16 +497,21 @@ public class Compiler {
 	 * Operator.
 	 */
 	private List<ExpressionToken> resolveUnaryOperator( List<ExpressionToken> tokenList )
-			throws ExpressionEngineException {
+			throws ExpressionEngineException
+	{
 		boolean wasOperator = true;
 		int length = tokenList.size();
 
-		for( int i = 0; i < length; i++ ) {
+		for( int i = 0; i < length; i++ )
+		{
 			ExpressionToken token = (ExpressionToken) tokenList.get( i );
 
-			if( grammar.isOperator( token.getValue() ) ) {
-				if( wasOperator ) {
-					if( !grammar.isUnary( token.getValue() ) ) {
+			if( grammar.isOperator( token.getValue() ) )
+			{
+				if( wasOperator )
+				{
+					if( !grammar.isUnary( token.getValue() ) )
+					{
 						throw new ExpressionEngineException( "The operator \"" + token.getValue()
 								+ "\" can't be used unary at " + token.getIndex() );
 					}
@@ -470,10 +521,12 @@ public class Compiler {
 
 				wasOperator = true;
 			}
-			else if( grammar.isLeftBracket( token.getValue() ) ) {
+			else if( grammar.isLeftBracket( token.getValue() ) )
+			{
 				wasOperator = true;
 			}
-			else {
+			else
+			{
 				wasOperator = false;
 			}
 		}

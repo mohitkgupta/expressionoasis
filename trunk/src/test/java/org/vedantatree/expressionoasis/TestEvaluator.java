@@ -32,6 +32,7 @@ import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.ExpressionEngineConstants;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.extensions.DefaultVariableProvider;
+import org.vedantatree.expressionoasis.extensions.FunctionProvider;
 import org.vedantatree.types.Type;
 import org.vedantatree.types.ValueObject;
 
@@ -1219,6 +1220,16 @@ public class TestEvaluator {
 		String expression = "null % 3";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
+	}
+	
+	@Test
+	public void testCustomFunctionProvider() throws ExpressionEngineException {
+		TestCustomFunctionProvider provider = new TestCustomFunctionProvider();
+		expressionContext.addFunctionProvider(provider);
+		
+		String expression = "mySum(2.023, 9, 5.208)";
+		Number result1 = (Number) ExpressionEngine.evaluate( expression, expressionContext );
+		assertEquals( 16.231, result1.doubleValue(), 0 );
 	}
 
 }
