@@ -48,6 +48,9 @@ public class ExpressionOasisConfig
 	@Element(name = "grammarClass")
 	private String							grammarClass;
 
+	@Element(name = "grammarPath")
+	private String							grammarPath;
+
 	@ElementList(name = "functionProviders", entry = "functionProvider")
 	private List<FunctionProviderConfig>	functionProviderConfigs;
 
@@ -111,5 +114,10 @@ public class ExpressionOasisConfig
 					"Problem while instantiating the Grammar object. Grammar Class specified in config.xml["
 							+ grammarClass + "]", e );
 		}
+	}
+	
+	public String getGrammarPath ()
+	{
+		return grammarPath;
 	}
 }

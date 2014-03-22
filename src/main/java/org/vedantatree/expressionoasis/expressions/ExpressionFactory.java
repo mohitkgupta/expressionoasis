@@ -61,8 +61,8 @@ import org.vedantatree.expressionoasis.expressions.property.FunctionExpression;
  *          Improved the logic for Operand type expression search while creating the Expression
  * 
  * @author Mohit Gupta
- * @since March 2014
  * @version 1.2
+ * @since 3.1
  */
 public class ExpressionFactory
 {
