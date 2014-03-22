@@ -71,7 +71,7 @@ import org.vedantatree.expressionoasis.grammar.Grammar;
  * 
  * @author Mohit Gupta
  * @version 1.2
- * @since March 2014
+ * @since 3.1
  */
 public class Compiler
 {

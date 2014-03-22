@@ -1,15 +1,19 @@
-package org.vedantatree.expressionoasis.expressions;
+package org.vedantatree.expressionoasis.expressions.string;
 
-import org.vedantatree.expressionoasis.ExpressionContext;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
+import org.vedantatree.expressionoasis.expressions.BinaryOperatorExpression;
 import org.vedantatree.types.Type;
 import org.vedantatree.types.ValueObject;
 
 
 /**
+ * Expression to evaluate the String.startsWith type expression.  
+ * 
+ * Expression format > userName startsWith 'Girish'. 'startsWith' expression has been added to Grammar.xml
  * 
  * @author Girish Kumar
- * @version {version}
+ * @version 1.0
+ * @since 3.1
  */
 public class StartsWithExpression extends BinaryOperatorExpression
 {
@@ -17,13 +21,11 @@ public class StartsWithExpression extends BinaryOperatorExpression
 	static
 	{
 		addTypePair( StartsWithExpression.class, Type.STRING, Type.STRING, Type.BOOLEAN );
-	}
-
-	@Override
-	public void initialize( ExpressionContext expressionContext, Object parameters, boolean validate )
-			throws ExpressionEngineException
-	{
-		super.initialize( expressionContext, parameters, validate );
+		
+		//null support
+		addTypePair( StartsWithExpression.class, Type.OBJECT, Type.OBJECT, Type.BOOLEAN );
+		addTypePair( StartsWithExpression.class, Type.OBJECT, Type.STRING, Type.BOOLEAN );
+		addTypePair( StartsWithExpression.class, Type.STRING, Type.OBJECT, Type.BOOLEAN );
 	}
 
 	@Override

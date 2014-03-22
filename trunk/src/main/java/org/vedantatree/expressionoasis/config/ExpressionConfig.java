@@ -55,7 +55,7 @@ public class ExpressionConfig {
 			expressionClass = Class.forName( className );
 		}
 		catch( ClassNotFoundException e ) {
-			throw new RuntimeException( "Error loading expression class " + e.getMessage(), e );
+			throw new RuntimeException( "Error loading expression class[" + className + "]", e );
 		}
 		return expressionClass;
 	}

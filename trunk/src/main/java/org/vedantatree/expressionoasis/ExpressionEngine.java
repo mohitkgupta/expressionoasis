@@ -61,7 +61,7 @@ import org.vedantatree.types.ValueObject;
  * 
  * @author Mohit Gupta
  * @version 1.2
- * @since March 2014
+ * @since 3.1
  */
 public final class ExpressionEngine
 {

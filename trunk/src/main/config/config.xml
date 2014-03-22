@@ -3,6 +3,7 @@
 
     <cacheCompiledExpressions>True</cacheCompiledExpressions>
     <grammarClass>org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar</grammarClass>
+    <grammarPath>grammar.xml</grammarPath>
 
 	<!--
 		Function providers either can be added to the ExpressionContext using API or these can be defined here. 
@@ -64,6 +65,10 @@
         <expression name="&lt;&lt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWSignedLeftShiftExpression" type="binary"/>
         <expression name="&gt;&gt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWSignedRightShiftExpression" type="binary"/>
         <expression name="&gt;&gt;&gt;" className="org.vedantatree.expressionoasis.expressions.bitwise.BWUnsignedRightShiftExpression" type="binary"/>
+
+        <expression name="startsWith" className="org.vedantatree.expressionoasis.expressions.string.StartsWithExpression" type="binary"/>
+        <expression name="endsWith" className="org.vedantatree.expressionoasis.expressions.string.EndsWithExpression" type="binary"/>
+        <expression name="contains" className="org.vedantatree.expressionoasis.expressions.string.ContainsExpression" type="binary"/>
 
         <expression name="[0-9]+" className="org.vedantatree.expressionoasis.expressions.NumericExpression" type="operand"/>
         <expression name="([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)" className="org.vedantatree.expressionoasis.expressions.DecimalExpression" type="operand"/>
