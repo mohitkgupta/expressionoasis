@@ -32,67 +32,60 @@ import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.ExpressionEngineConstants;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.extensions.DefaultVariableProvider;
-import org.vedantatree.expressionoasis.extensions.FunctionProvider;
 import org.vedantatree.types.Type;
 import org.vedantatree.types.ValueObject;
 
 
 /**
  * Testcase for expression evaluator.
- * 
+ *
  * @author Mohit Gupta
  * @author Parmod Kamboj
  * @version 1.0
+ *
+ * Modified to use JUnit 4.
  * 
- *          Modified to use JUnit 4.
- * 
- *          Added tests for new custom functions, and tests to confirm
- *          equality expression now works with booleans, and nullable
- *          type support.
- * 
+ * Added tests for new custom functions, and tests to confirm
+ * equality expression now works with booleans, and nullable
+ * type support.
+ *
  * @author Kris Marwood
  * @author 1.1
  */
-public class TestEvaluator
-{
+public class TestEvaluator {
 
 	/**
 	 * The expression context used by evaluator.
 	 */
-	private ExpressionContext	expressionContext;
+	private ExpressionContext expressionContext;
 
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		expressionContext = new ExpressionContext();
 
 		DefaultVariableProvider dvp = new DefaultVariableProvider();
 		dvp.addVariable( "principle", new ValueObject( new Double( 100.00 ), Type.DOUBLE ) );
 		dvp.addVariable( "rate", new ValueObject( new Double( 10.00 ), Type.DOUBLE ) );
 		dvp.addVariable( "time", new ValueObject( new Double( 2.00 ), Type.DOUBLE ) );
-		dvp.addVariable( "rates", new ValueObject( new Double[]
-		{ 2.00, 3.00 }, Type.createType( Double[].class ) ) );
-		dvp.addVariable( "_rates", new ValueObject( new Double[][]
-		{ new Double[]
-		{ 2.00, 3.00 }, new Double[]
-		{ 4.00, 5.00 } }, Type.createType( Double[][].class ) ) );
+		dvp.addVariable( "rates", new ValueObject( new Double[] { 2.00, 3.00 }, Type.createType( Double[].class ) ) );
+		dvp.addVariable( "_rates", new ValueObject( new Double[][] { new Double[] { 2.00, 3.00 },
+				new Double[] { 4.00, 5.00 } }, Type.createType( Double[][].class ) ) );
 
-		String[] names = new String[]
-		{ "Kris", "Mohit", "Parmod" };
+		String[] names = new String[] { "Kris", "Mohit", "Parmod" };
 		dvp.addVariable( "_names", new ValueObject( names, Type.createType( names.getClass() ) ) );
 
-		dvp.addVariable( "doublesWithNull", new ValueObject( new Double[]
-		{ 2.00, 3.00, null }, Type.createType( Double[].class ) ) );
+		dvp.addVariable( "doublesWithNull", new ValueObject( new Double[] { 2.00, 3.00, null }, Type
+				.createType( Double[].class ) ) );
 
-		dvp.addVariable( "doublesAllNull", new ValueObject( new Double[]
-		{ null, null, null }, Type.createType( Double[].class ) ) );
-		dvp.addVariable( "longsAllNull", new ValueObject( new Long[]
-		{ null, null, null }, Type.createType( Long[].class ) ) );
-		dvp.addVariable( "booleansAllNull", new ValueObject( new Boolean[]
-		{ null, null, null }, Type.createType( Boolean[].class ) ) );
+		dvp.addVariable( "doublesAllNull", new ValueObject( new Double[] { null, null, null }, Type
+				.createType( Double[].class ) ) );
+		dvp.addVariable( "longsAllNull", new ValueObject( new Long[] { null, null, null }, Type
+				.createType( Long[].class ) ) );
+		dvp.addVariable( "booleansAllNull", new ValueObject( new Boolean[] { null, null, null }, Type
+				.createType( Boolean[].class ) ) );
 
 		dvp.addVariable( "nameIndex", new ValueObject( new Long( 0 ), Type.LONG ) );
 
@@ -109,35 +102,29 @@ public class TestEvaluator
 				.getClassLoader().getResource( "test.xml" ) );
 	}
 
-	public class Person
-	{
+	public class Person {
 
-		private String	name;
-		private int		age;
+		private String name;
+		private int	age;
 
-		public Person( String name, int age )
-		{
+		public Person( String name, int age ) {
 			setName( name );
 			setAge( age );
 		}
 
-		public void setName( String name )
-		{
+		public void setName( String name ) {
 			this.name = name;
 		}
 
-		public String getName()
-		{
+		public String getName() {
 			return name;
 		}
 
-		public void setAge( int age )
-		{
+		public void setAge( int age ) {
 			this.age = age;
 		}
 
-		public int getAge()
-		{
+		public int getAge() {
 			return age;
 		}
 	}
@@ -146,14 +133,12 @@ public class TestEvaluator
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 		expressionContext = null;
 	}
 
 	@Test
-	public void testAritmaticExpression() throws ExpressionEngineException
-	{
+	public void testAritmaticExpression() throws ExpressionEngineException {
 		String expression = "-10 / 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( -5, result.intValue() );
@@ -168,8 +153,7 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void testLogicalExpression() throws ExpressionEngineException
-	{
+	public void testLogicalExpression() throws ExpressionEngineException {
 		String expression = "true && !true";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( false, result.booleanValue() );
@@ -197,8 +181,7 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void testRelationalExpression() throws ExpressionEngineException
-	{
+	public void testRelationalExpression() throws ExpressionEngineException {
 		String expression = "1/2 == 2/2";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( false, result.booleanValue() );
@@ -225,16 +208,14 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void testVariableExpression() throws ExpressionEngineException
-	{
+	public void testVariableExpression() throws ExpressionEngineException {
 		String expression = "(principle * rate * time) / 100";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( "value is not matching", 20.0, result.doubleValue(), 0 );
 	}
 
 	@Test
-	public void testFunctionExpression() throws ExpressionEngineException
-	{
+	public void testFunctionExpression() throws ExpressionEngineException {
 		String expression = "abs(-4.5) + 1";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 5.5, result.doubleValue(), 0 );
@@ -313,16 +294,14 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void testArrayExpression() throws ExpressionEngineException
-	{
+	public void testArrayExpression() throws ExpressionEngineException {
 		String expression = "rates[1] * 10 - _rates[0][0] / 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( "value is not matching", 29.0, result.doubleValue(), 0 );
 	}
 
 	@Test
-	public void testPropertyExpression() throws ExpressionEngineException
-	{
+	public void testPropertyExpression() throws ExpressionEngineException {
 		String expression = "object.class.name";
 		String result = (String) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( "Wrong outcome", "java.lang.Object", result );
@@ -341,20 +320,17 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_bitwise_signed_right_shift_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_signed_right_shift_expression() throws ExpressionEngineException {
 		String expression = "16 >> 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 4, result.longValue() );
 
 		expression = "16 >> null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
@@ -365,20 +341,17 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_bitwise_signed_left_shift_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_signed_left_shift_expression() throws ExpressionEngineException {
 		String expression = "3 << 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 12, result.longValue() );
 
 		expression = "3 << null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
@@ -389,20 +362,17 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_bitwise_unsigned_right_shift_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_unsigned_right_shift_expression() throws ExpressionEngineException {
 		String expression = "15 >>> 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 3, result.longValue() );
 
 		expression = "15 >>> null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
@@ -413,52 +383,44 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_bitwise_or_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_or_expression() throws ExpressionEngineException {
 		String expression = "4 | 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 6, result.longValue() );
 
 		expression = "4 | null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
 
 		expression = "null | 4";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
 	}
 
 	@Test
-	public void test_bitwise_complement_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_complement_expression() throws ExpressionEngineException {
 		String expression = "~2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( -3, result.longValue() );
 
 		expression = "~null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
@@ -469,40 +431,34 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_bitwise_and_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_and_expression() throws ExpressionEngineException {
 		String expression = "3 & 2";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 2, result.longValue() );
 
 		expression = "3 & null";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
 
 		expression = "null & 3";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
 	}
 
 	@Test
-	public void test_bitwise_xor_expression() throws ExpressionEngineException
-	{
+	public void test_bitwise_xor_expression() throws ExpressionEngineException {
 		String expression = "1 ^ 0";
 		Number result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 1, result.longValue() );
@@ -521,20 +477,17 @@ public class TestEvaluator
 
 		expression = "null ^ 3";
 		result = null;
-		try
-		{
+		try {
 			result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
 		}
-		catch( ExpressionEngineException e )
-		{
+		catch( ExpressionEngineException e ) {
 			assertEquals( EOErrorCodes.INVALID_OPERAND_TYPE, e.getErrorCode() );
 		}
 		assertNull( result );
 	}
 
 	@Test
-	public void testTernaryExpression() throws ExpressionEngineException
-	{
+	public void testTernaryExpression() throws ExpressionEngineException {
 
 		String expression = "1/2 == 1/2 ? 10 : 3";
 		Object result = (Number) ExpressionEngine.evaluate( expression, expressionContext );
@@ -548,24 +501,21 @@ public class TestEvaluator
 
 	// Application does not identify null as special keyword as of now
 	@Test
-	public void test_ternary_expression_null_if_true() throws ExpressionEngineException
-	{
+	public void test_ternary_expression_null_if_true() throws ExpressionEngineException {
 		String expression = "1 == 1 ? null : 'blah'";
 		Object result = ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_ternary_expression_null_if_false() throws ExpressionEngineException
-	{
+	public void test_ternary_expression_null_if_false() throws ExpressionEngineException {
 		String expression = "1 == 2 ? 'blah' : null";
 		Object result = ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void testXMLExpression() throws ExpressionEngineException
-	{
+	public void testXMLExpression() throws ExpressionEngineException {
 
 		String expression = "xml('/new1/book/publisher/age/@value')";
 		Object result = (String) ExpressionEngine.evaluate( expression, expressionContext );
@@ -581,8 +531,7 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void testComplexExpression() throws ExpressionEngineException
-	{
+	public void testComplexExpression() throws ExpressionEngineException {
 
 		String expression = "((2+3) >> 2) + xml('/new1/book/publisher/age/@value') + sqrt(256) + (20/pow(2,2))";
 		Object result = ExpressionEngine.evaluate( expression, expressionContext );
@@ -595,345 +544,302 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_isnull_on_null_constant() throws ExpressionEngineException
-	{
+	public void test_isnull_on_null_constant() throws ExpressionEngineException {
 		String expression = "isnull(null)";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_isnull_on_null_string() throws ExpressionEngineException
-	{
+	public void test_isnull_on_null_string() throws ExpressionEngineException {
 		String expression = "isnull(null_string)";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_isnull_on_non_null_string() throws ExpressionEngineException
-	{
+	public void test_isnull_on_non_null_string() throws ExpressionEngineException {
 		String expression = "isnull(non_null_string)";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_iif_true_value_on_same_datatypes() throws ExpressionEngineException
-	{
+	public void test_iif_true_value_on_same_datatypes() throws ExpressionEngineException {
 		String expression = "iif(true, 5, 6)";
 		Long result = (Long) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( new Long( 5 ), result );
 	}
 
 	@Test
-	public void test_iif_false_value_on_same_datatypes() throws ExpressionEngineException
-	{
+	public void test_iif_false_value_on_same_datatypes() throws ExpressionEngineException {
 		String expression = "iif(false, 5.3, 6.7)";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( new Double( 6.7 ), result );
 	}
 
 	@Test
-	public void test_iif_on_different_datatypes() throws ExpressionEngineException
-	{
+	public void test_iif_on_different_datatypes() throws ExpressionEngineException {
 		String expression = "iif(true, 'wastrue', 6)";
 		String result = (String) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( "wastrue", result );
 	}
 
 	@Test
-	public void test_iif_with_null() throws ExpressionEngineException
-	{
+	public void test_iif_with_null() throws ExpressionEngineException {
 		String expression = "iif(true, null, 6)";
 		Long result = (Long) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( null, result );
 	}
-
+	
 	// issue#7
 	@Test
-	public void test_custom_function_with_no_arg() throws ExpressionEngineException
-	{
+	public void test_custom_function_with_no_arg() throws ExpressionEngineException {
 		String expression = "testCustomNoArg() + 10";
 		Long result = (Long) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( new Long( 131 ), result );
+		assertEquals( new Long(131), result );
 	}
 
 	@Test
-	public void test_string_array() throws ExpressionEngineException
-	{
+	public void test_string_array() throws ExpressionEngineException {
 		String expression = "_names[nameIndex]";
 		String result = (String) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( "Kris", result );
 	}
 
 	@Test
-	public void test_sum_doubles_with_null() throws ExpressionEngineException
-	{
+	public void test_sum_doubles_with_null() throws ExpressionEngineException {
 		String expression = "sum(doublesWithNull)";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( 5.0, result, 0 );
 	}
 
 	@Test
-	public void test_sum_doubles_all_null() throws ExpressionEngineException
-	{
+	public void test_sum_doubles_all_null() throws ExpressionEngineException {
 		String expression = "sum(doublesAllNull)";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertEquals( null, result );
 	}
 
 	@Test
-	public void test_null_equals_null() throws ExpressionEngineException
-	{
+	public void test_null_equals_null() throws ExpressionEngineException {
 		String expression = "null == null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_null_null_inequality() throws ExpressionEngineException
-	{
+	public void test_null_null_inequality() throws ExpressionEngineException {
 		String expression = "null != null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_null_double_equality() throws ExpressionEngineException
-	{
+	public void test_null_double_equality() throws ExpressionEngineException {
 		String expression = "1.0 == null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_double_null_equality() throws ExpressionEngineException
-	{
+	public void test_double_null_equality() throws ExpressionEngineException {
 		String expression = "null == 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_String_null_equality() throws ExpressionEngineException
-	{
+	public void test_String_null_equality() throws ExpressionEngineException {
 		String expression = "'null' == null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_null_double_inequality() throws ExpressionEngineException
-	{
+	public void test_null_double_inequality() throws ExpressionEngineException {
 		String expression = "null != 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_double_null_inequality() throws ExpressionEngineException
-	{
+	public void test_double_null_inequality() throws ExpressionEngineException {
 		String expression = "1.0 != null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_null_string_inequality() throws ExpressionEngineException
-	{
+	public void test_null_string_inequality() throws ExpressionEngineException {
 		String expression = "null != ''";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_string_null_inequality() throws ExpressionEngineException
-	{
+	public void test_string_null_inequality() throws ExpressionEngineException {
 		String expression = "'funky' != null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_add_null_and_double() throws ExpressionEngineException
-	{
+	public void test_add_null_and_double() throws ExpressionEngineException {
 		String expression = "null + 5.0";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_add_double_and_null() throws ExpressionEngineException
-	{
+	public void test_add_double_and_null() throws ExpressionEngineException {
 		String expression = "5.0 + null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_add_null_and_long() throws ExpressionEngineException
-	{
+	public void test_add_null_and_long() throws ExpressionEngineException {
 		String expression = "null + 5";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_add_long_and_null() throws ExpressionEngineException
-	{
+	public void test_add_long_and_null() throws ExpressionEngineException {
 		String expression = "5 + null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_add_null_and_null() throws ExpressionEngineException
-	{
+	public void test_add_null_and_null() throws ExpressionEngineException {
 		String expression = "null + null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_add_double_null_and_double_null() throws ExpressionEngineException
-	{
+	public void test_add_double_null_and_double_null() throws ExpressionEngineException {
 		String expression = "doublesAllNull[0] + doublesAllNull[1]";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_subtract_null_and_double() throws ExpressionEngineException
-	{
+	public void test_subtract_null_and_double() throws ExpressionEngineException {
 		String expression = "null - 5.0";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_subtract_double_and_null() throws ExpressionEngineException
-	{
+	public void test_subtract_double_and_null() throws ExpressionEngineException {
 		String expression = "5.0 - null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_subtract_null_and_long() throws ExpressionEngineException
-	{
+	public void test_subtract_null_and_long() throws ExpressionEngineException {
 		String expression = "null - 5";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_subtract_long_and_null() throws ExpressionEngineException
-	{
+	public void test_subtract_long_and_null() throws ExpressionEngineException {
 		String expression = "5 - null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_subtract_null_double_and_null_double() throws ExpressionEngineException
-	{
+	public void test_subtract_null_double_and_null_double() throws ExpressionEngineException {
 		String expression = "doublesAllNull[0] - doublesAllNull[1]";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test(expected = ExpressionEngineException.class)
-	public void test_subtract_null_and_string() throws ExpressionEngineException
-	{
+	public void test_subtract_null_and_string() throws ExpressionEngineException {
 		String expression = "null - 'asdf'";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_multiply_null_and_double() throws ExpressionEngineException
-	{
+	public void test_multiply_null_and_double() throws ExpressionEngineException {
 		String expression = "null * 5.0";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_multiply_double_and_null() throws ExpressionEngineException
-	{
+	public void test_multiply_double_and_null() throws ExpressionEngineException {
 		String expression = "5.0 * null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_multiply_null_and_long() throws ExpressionEngineException
-	{
+	public void test_multiply_null_and_long() throws ExpressionEngineException {
 		String expression = "null * 5";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_multiply_long_and_null() throws ExpressionEngineException
-	{
+	public void test_multiply_long_and_null() throws ExpressionEngineException {
 		String expression = "5 * null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_multiply_null_double_and_null_double() throws ExpressionEngineException
-	{
+	public void test_multiply_null_double_and_null_double() throws ExpressionEngineException {
 		String expression = "doublesAllNull[0] * doublesAllNull[1]";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_divide_null_and_double() throws ExpressionEngineException
-	{
+	public void test_divide_null_and_double() throws ExpressionEngineException {
 		String expression = "null / 5.0";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_divide_double_and_null() throws ExpressionEngineException
-	{
+	public void test_divide_double_and_null() throws ExpressionEngineException {
 		String expression = "5.0 / null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_divide_null_and_long() throws ExpressionEngineException
-	{
+	public void test_divide_null_and_long() throws ExpressionEngineException {
 		String expression = "null / 5";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_divide_long_and_null() throws ExpressionEngineException
-	{
+	public void test_divide_long_and_null() throws ExpressionEngineException {
 		String expression = "5 / null";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_divide_null_double_and_null_double() throws ExpressionEngineException
-	{
+	public void test_divide_null_double_and_null_double() throws ExpressionEngineException {
 		String expression = "doublesAllNull[0] / doublesAllNull[1]";
 		Double result = (Double) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_boolean_null_relational_expression() throws ExpressionEngineException
-	{
+	public void test_boolean_null_relational_expression() throws ExpressionEngineException {
 		String expression = "true == null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
@@ -952,573 +858,367 @@ public class TestEvaluator
 	}
 
 	@Test
-	public void test_LTE_expression_long_null() throws ExpressionEngineException
-	{
+	public void test_LTE_expression_long_null() throws ExpressionEngineException {
 		String expression = "1 <= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LTE_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_LTE_expression_null_long() throws ExpressionEngineException {
 		String expression = "null <= 1";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LTE_expression_double_null() throws ExpressionEngineException
-	{
+	public void test_LTE_expression_double_null() throws ExpressionEngineException {
 		String expression = "1.0 <= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LTE_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_LTE_expression_null_double() throws ExpressionEngineException {
 		String expression = "null <= 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LTE_expression_null_null() throws ExpressionEngineException
-	{
+	public void test_LTE_expression_null_null() throws ExpressionEngineException {
 		String expression = "null <= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LT_expression_long_null() throws ExpressionEngineException
-	{
+	public void test_LT_expression_long_null() throws ExpressionEngineException {
 		String expression = "1 < null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LT_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_LT_expression_null_long() throws ExpressionEngineException {
 		String expression = "null < 1";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LT_expression_double_null() throws ExpressionEngineException
-	{
+	public void test_LT_expression_double_null() throws ExpressionEngineException {
 		String expression = "1.0 < null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LT_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_LT_expression_null_double() throws ExpressionEngineException {
 		String expression = "null < 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_LT_expression_null_null() throws ExpressionEngineException
-	{
+	public void test_LT_expression_null_null() throws ExpressionEngineException {
 		String expression = "null < null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GTE_expression_long_null() throws ExpressionEngineException
-	{
+	public void test_GTE_expression_long_null() throws ExpressionEngineException {
 		String expression = "1 >= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GTE_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_GTE_expression_null_long() throws ExpressionEngineException {
 		String expression = "null >= 1";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GTE_expression_double_null() throws ExpressionEngineException
-	{
+	public void test_GTE_expression_double_null() throws ExpressionEngineException {
 		String expression = "1.0 >= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GTE_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_GTE_expression_null_double() throws ExpressionEngineException {
 		String expression = "null >= 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GTE_expression_null_null() throws ExpressionEngineException
-	{
+	public void test_GTE_expression_null_null() throws ExpressionEngineException {
 		String expression = "null >= null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GT_expression_long_null() throws ExpressionEngineException
-	{
+	public void test_GT_expression_long_null() throws ExpressionEngineException {
 		String expression = "1 > null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GT_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_GT_expression_null_long() throws ExpressionEngineException {
 		String expression = "null > 1";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GT_expression_double_null() throws ExpressionEngineException
-	{
+	public void test_GT_expression_double_null() throws ExpressionEngineException {
 		String expression = "1.0 > null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GT_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_GT_expression_null_double() throws ExpressionEngineException {
 		String expression = "null > 1.0";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_GT_expression_null_null() throws ExpressionEngineException
-	{
+	public void test_GT_expression_null_null() throws ExpressionEngineException {
 		String expression = "null > null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_true_true() throws ExpressionEngineException
-	{
+	public void test_And_expression_true_true() throws ExpressionEngineException {
 		String expression = "true && true";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_And_expression_false_false() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_false() throws ExpressionEngineException {
 		String expression = "false && false";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_And_expression_true_false() throws ExpressionEngineException
-	{
+	public void test_And_expression_true_false() throws ExpressionEngineException {
 		String expression = "true && false";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_And_expression_false_true() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_true() throws ExpressionEngineException {
 		String expression = "false && true";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_And_expression_true_null_constant() throws ExpressionEngineException
-	{
+	public void test_And_expression_true_null_constant() throws ExpressionEngineException {
 		String expression = "true && null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_true_null_boolean() throws ExpressionEngineException
-	{
+	public void test_And_expression_true_null_boolean() throws ExpressionEngineException {
 		String expression = "true && booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_false_null_constant() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_null_constant() throws ExpressionEngineException {
 		String expression = "false && null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_false_null_boolean() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_null_boolean() throws ExpressionEngineException {
 		String expression = "false && booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_false_null_constant_null_constant() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_null_constant_null_constant() throws ExpressionEngineException {
 		String expression = "null && null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_And_expression_false_null_boolean_null_boolean() throws ExpressionEngineException
-	{
+	public void test_And_expression_false_null_boolean_null_boolean() throws ExpressionEngineException {
 		String expression = "booleansAllNull[0] && booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_true_true() throws ExpressionEngineException
-	{
+	public void test_Or_expression_true_true() throws ExpressionEngineException {
 		String expression = "true || true";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_false() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_false() throws ExpressionEngineException {
 		String expression = "false || false";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertFalse( result );
 	}
 
 	@Test
-	public void test_Or_expression_true_false() throws ExpressionEngineException
-	{
+	public void test_Or_expression_true_false() throws ExpressionEngineException {
 		String expression = "true || false";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_true() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_true() throws ExpressionEngineException {
 		String expression = "false || true";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertTrue( result );
 	}
 
 	@Test
-	public void test_Or_expression_true_null_constant() throws ExpressionEngineException
-	{
+	public void test_Or_expression_true_null_constant() throws ExpressionEngineException {
 		String expression = "true || null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_true_null_boolean() throws ExpressionEngineException
-	{
+	public void test_Or_expression_true_null_boolean() throws ExpressionEngineException {
 		String expression = "true || booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_null_constant() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_null_constant() throws ExpressionEngineException {
 		String expression = "false || null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_null_boolean() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_null_boolean() throws ExpressionEngineException {
 		String expression = "false || booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_null_constant_null_constant() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_null_constant_null_constant() throws ExpressionEngineException {
 		String expression = "null || null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Or_expression_false_null_boolean_null_boolean() throws ExpressionEngineException
-	{
+	public void test_Or_expression_false_null_boolean_null_boolean() throws ExpressionEngineException {
 		String expression = "booleansAllNull[0] || booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Not_expression_null_boolean() throws ExpressionEngineException
-	{
+	public void test_Not_expression_null_boolean() throws ExpressionEngineException {
 		String expression = "!booleansAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Not_expression_null_constant() throws ExpressionEngineException
-	{
+	public void test_Not_expression_null_constant() throws ExpressionEngineException {
 		String expression = "!null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Plus_expression_null_constant() throws ExpressionEngineException
-	{
+	public void test_Plus_expression_null_constant() throws ExpressionEngineException {
 		String expression = "+null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Plus_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_Plus_expression_null_double() throws ExpressionEngineException {
 		String expression = "+doublesAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Plus_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_Plus_expression_null_long() throws ExpressionEngineException {
 		String expression = "+longsAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Minus_expression_null_constant() throws ExpressionEngineException
-	{
+	public void test_Minus_expression_null_constant() throws ExpressionEngineException {
 		String expression = "-null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Minus_expression_null_double() throws ExpressionEngineException
-	{
+	public void test_Minus_expression_null_double() throws ExpressionEngineException {
 		String expression = "-doublesAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_Minus_expression_null_long() throws ExpressionEngineException
-	{
+	public void test_Minus_expression_null_long() throws ExpressionEngineException {
 		String expression = "-longsAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_remainder_expression_long_null_long() throws ExpressionEngineException
-	{
+	public void test_remainder_expression_long_null_long() throws ExpressionEngineException {
 		String expression = "3 % longsAllNull[0]";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_remainder_expression_long_null_constant() throws ExpressionEngineException
-	{
+	public void test_remainder_expression_long_null_constant() throws ExpressionEngineException {
 		String expression = "3 % null";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_remainder_expression_long_long_null() throws ExpressionEngineException
-	{
+	public void test_remainder_expression_long_long_null() throws ExpressionEngineException {
 		String expression = "longsAllNull[0] % 3";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
 	@Test
-	public void test_remainder_expression_null_constant_long() throws ExpressionEngineException
-	{
+	public void test_remainder_expression_null_constant_long() throws ExpressionEngineException {
 		String expression = "null % 3";
 		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
 		assertNull( result );
 	}
 
-	@Test
-	public void testCustomFunctionProvider() throws ExpressionEngineException
-	{
-		TestCustomFunctionProvider provider = new TestCustomFunctionProvider();
-		expressionContext.addFunctionProvider( provider );
-
-		String expression = "mySum(2.023, 9, 5.208)";
-		Number result1 = (Number) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( 16.231, result1.doubleValue(), 0 );
-	}
-
-	@Test
-	public void test_starts_with_expression_string_string_true() throws ExpressionEngineException
-	{
-		String expression = "person.name startsWith 'Moh'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.TRUE, result );
-	}
-
-	@Test
-	public void test_starts_with_expression_string_string_false() throws ExpressionEngineException
-	{
-		String expression = "person.name startsWith '1Moh'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_starts_with_expression_null_string_false() throws ExpressionEngineException
-	{
-		String expression = "null startsWith 'Moh'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_starts_with_expression_null_null_false() throws ExpressionEngineException
-	{
-		String expression = "null startsWith null";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_starts_with_expression_null_number_exception() throws ExpressionEngineException
-	{
-		String expression = "null startsWith 2";
-		boolean exception = false;
-		try
-		{
-			Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		}
-		catch( ExpressionEngineException eee )
-		{
-			exception = eee.getErrorCode() == 100;
-		}
-		assertEquals( Boolean.TRUE, exception );
-	}
-
-	@Test
-	public void test_ends_with_expression_string_string_true() throws ExpressionEngineException
-	{
-		String expression = "person.name endsWith 'it'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.TRUE, result );
-	}
-
-	@Test
-	public void test_ends_with_expression_string_string_false() throws ExpressionEngineException
-	{
-		String expression = "person.name endsWith 'it2'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_ends_with_expression_null_string_false() throws ExpressionEngineException
-	{
-		String expression = "null endsWith 'it'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_ends_with_expression_null_null_false() throws ExpressionEngineException
-	{
-		String expression = "null endsWith null";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_ends_with_expression_null_number_exception() throws ExpressionEngineException
-	{
-		String expression = "null endsWith 2";
-		boolean exception = false;
-		try
-		{
-			Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		}
-		catch( ExpressionEngineException eee )
-		{
-			exception = eee.getErrorCode() == 100;
-		}
-		assertEquals( Boolean.TRUE, exception );
-	}
-
-	@Test
-	public void test_contains_with_expression_string_string_true() throws ExpressionEngineException
-	{
-		String expression = "person.name contains 'ohi'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.TRUE, result );
-	}
-
-	@Test
-	public void test_contains_with_expression_string_string_false() throws ExpressionEngineException
-	{
-		String expression = "person.name contains '1ohi2'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_contains_with_expression_null_string_false() throws ExpressionEngineException
-	{
-		String expression = "null contains 'Moh'";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_contains_with_expression_null_null_false() throws ExpressionEngineException
-	{
-		String expression = "null contains null";
-		Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		assertEquals( Boolean.FALSE, result );
-	}
-
-	@Test
-	public void test_contains_with_expression_null_number_exception() throws ExpressionEngineException
-	{
-		String expression = "null contains 2";
-		boolean exception = false;
-		try
-		{
-			Boolean result = (Boolean) ExpressionEngine.evaluate( expression, expressionContext );
-		}
-		catch( ExpressionEngineException eee )
-		{
-			exception = eee.getErrorCode() == 100;
-		}
-		assertEquals( Boolean.TRUE, exception );
-	}
 }

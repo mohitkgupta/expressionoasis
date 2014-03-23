@@ -25,7 +25,6 @@ import junit.textui.TestRunner;
 
 import org.vedantatree.expressionoasis.Parser;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
-import org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar;
 import org.vedantatree.expressionoasis.grammar.ExpressionToken;
 
 
@@ -59,7 +58,7 @@ public class TestParser extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		parser = new Parser(new DefaultXMLGrammar());
+		parser = new Parser();
 	}
 
 	/**

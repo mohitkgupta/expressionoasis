@@ -29,28 +29,19 @@ import org.vedantatree.types.ValueObject;
  * It does not supports for double operands
  * 
  * @author Mohit Gupta
- * 
- *         Added support for nulls
- * 
+ *
+ * Added support for nulls
+ *
  * @author Kris Marwood
  * @version 1.1
- * 
- * 	Added support for Boolean type operands
- * 
- * @author Girish Kumar
- * @version 1.2
- * @since 3.1
  */
-public class BWXorExpression extends BinaryOperatorExpression
-{
+public class BWXorExpression extends BinaryOperatorExpression {
 
-	static
-	{
+	static {
 		addTypePair( BWXorExpression.class, Type.INTEGER, Type.INTEGER, Type.LONG );
 		addTypePair( BWXorExpression.class, Type.LONG, Type.LONG, Type.LONG );
 		addTypePair( BWXorExpression.class, Type.INTEGER, Type.LONG, Type.LONG );
 		addTypePair( BWXorExpression.class, Type.LONG, Type.INTEGER, Type.LONG );
-		addTypePair( BWXorExpression.class, Type.BOOLEAN, Type.BOOLEAN, Type.BOOLEAN );
 
 		// nullable type support
 		addTypePair( BWXorExpression.class, Type.OBJECT, Type.OBJECT, Type.LONG );
@@ -60,27 +51,17 @@ public class BWXorExpression extends BinaryOperatorExpression
 		addTypePair( BWXorExpression.class, Type.OBJECT, Type.LONG, Type.LONG );
 	}
 
-	public ValueObject getValue() throws ExpressionEngineException
-	{
+	public ValueObject getValue() throws ExpressionEngineException {
 		Object leftValue = leftOperandExpression.getValue().getValue();
 		Object rightValue = rightOperandExpression.getValue().getValue();
-		Object result = null;
-		Type returnType = getReturnType();
+		Long result = null;
 
-		if( leftValue != null && rightValue != null )
-		{
-			if( returnType == Type.BOOLEAN )
-			{
-				result = new Boolean( ( (Boolean) leftValue ) ^ ( (Boolean) rightValue ) );
-			}
-			else
-			{
-				long leftLongValue = ( (Number) leftValue ).longValue();
-				long rightLongValue = ( (Number) rightValue ).longValue();
-				result = leftLongValue ^ rightLongValue;
-			}
+		if( leftValue != null && rightValue != null ) {
+			long leftLongValue = ( (Number) leftValue ).longValue();
+			long rightLongValue = ( (Number) rightValue ).longValue();
+			result = leftLongValue ^ rightLongValue;
 		}
 
-		return new ValueObject( result, returnType );
+		return new ValueObject( result, getReturnType() );
 	}
 }

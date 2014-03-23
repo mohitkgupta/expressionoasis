@@ -69,10 +69,6 @@
 	<binaryOperators>
 		<operator name="," precedence="0"/>
 		
-		<operator name="startsWith" precedence="0"/>
-		<operator name="endsWith" precedence="0"/>
-		<operator name="contains" precedence="0"/>
-
 		<!-- all assignment operators -->
 		<!--operator name="?:" precedence="2"/-->
 		<operator name="?" precedence="2"/>
@@ -120,14 +116,9 @@
 		<operator name="()" precedence="12"/>
 	</unaryOperators>
 	
-	<!-- 
-		Functions can be defined here, or can be added directly to DefaultXMLGrammer using API
-	 -->
 	<functions>
-		<!-- 
-		<operator name="anyCustomFunctionName" precedence="13"/>
-		 -->
-    </functions>
+
+        </functions>
 	
 	<brackets>
 		<bracket left="(" right=")"/>

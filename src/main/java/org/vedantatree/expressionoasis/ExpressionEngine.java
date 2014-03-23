@@ -27,12 +27,11 @@ import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.Expression;
 import org.vedantatree.expressionoasis.expressions.ExpressionTypeFinder;
 import org.vedantatree.expressionoasis.expressions.IdentifierExpression;
-import org.vedantatree.expressionoasis.grammar.Grammar;
 import org.vedantatree.types.ValueObject;
 
 
 /**
- * It is a Utility class for XpressionEngine Framework. It provides
+ * It is a Utility class for XpressionEngine Framework. It provides 
  * utility methods for accessing various functionalities of the Framework.
  * 
  * A few points to consider
@@ -42,50 +41,36 @@ import org.vedantatree.types.ValueObject;
  * will return Type.ANY_TYPE
  * -If expression contains XML expression, XML document 'URL' should be set
  * as property to Context before executing the expression
- * -In case of XML expression, it will always return the String value as it
+ * -In case of XML expression, it will always return the String value as it 
  * does not have any way to identify the required type of the value
- * - To override all above, currently we are getting only string type value
+ * - To override all above, currently we are getting only string type value 
  * from XML expressions
  * 
  * @author Mohit Gupta
  * @author Parmod Kamboj
  * @version 1.0
- * 
- *          Added the ability to extract the variable names from an expression.
- * 
+ *
+ * Added the ability to extract the variable names from an expression.
+ *
  * @author Kris Marwood
  * @version 1.1
- * 
- *          Exposed Grammar through API. Anyone can use the Grammar to get any metadata or to add specific metadata like
- *          function's definition
- * 
- * @author Mohit Gupta
- * @version 1.2
- * @since 3.1
  */
-public final class ExpressionEngine
-{
+public final class ExpressionEngine {
 
-	private static Log				LOGGER		= LogFactory.getLog( ExpressionEngine.class );
+	private static Log			LOGGER   = LogFactory.getLog( ExpressionEngine.class );
 
 	/**
 	 * Compiler instance used to compile the expressions
 	 */
-	private static final Compiler	compiler	= new Compiler();
+	private static final Compiler compiler = new Compiler();
 
 	/**
 	 * Constructor made private to restrict object construction
 	 */
-	private ExpressionEngine()
-	{
+	private ExpressionEngine() {
 		/*
 		 * Nothing to do here.
 		 */
-	}
-
-	public static Grammar getGrammar()
-	{
-		return compiler.getGrammar();
 	}
 
 	/**
@@ -93,52 +78,56 @@ public final class ExpressionEngine
 	 * 
 	 * @param expression the expression to evaluate
 	 * @param expressionContext the object contains the contextual information,
-	 *        which may be required for expression evaluation. It may be like
-	 *        an Java Bean in case of property expression
+	 * 		  which may be required for expression evaluation. It may be like 
+	 * 		  an Java Bean in case of property expression 
 	 * @return the result of expression
 	 * @throws ExpressionEngineException if unable to parse the expression
 	 */
 	public static Object evaluate( String expression, ExpressionContext expressionContext )
-			throws ExpressionEngineException
-	{
+			throws ExpressionEngineException {
 		Expression compiledExpression = compileExpression( expression, expressionContext, true );
 		ValueObject expressionValue = compiledExpression.getValue();
 
-		if( LOGGER.isDebugEnabled() )
-		{
+		if( LOGGER.isDebugEnabled() ) {
 			LOGGER.debug( "expressionValue[" + expressionValue.getValue() + "]" );
 		}
 		return expressionValue.getValue();
 	}
 
 	/**
-	 * Compiles the expression string and prepares the expression tree with
+	 * Compiles the expression string and prepares the expression tree with 
 	 * relevant Expression's objects.
 	 * 
 	 * @param expression the expression to compile
 	 * @param expressionContext the object contains the contextual information,
-	 *        which may be required for expression evaluation. It may be like
-	 *        an Java Bean in case of property expression
+	 * 		  which may be required for expression evaluation. It may be like 
+	 * 		  an Java Bean in case of property expression
 	 * @param validate true if the operands should be validated
-	 * @return compiled Expression object. It is actually a tree of Expression
-	 *         Objects
+	 * @return compiled Expression object. It is actually a tree of Expression 
+	 * 		   Objects
 	 * @throws ExpressionEngineException if unable to compile the expression
 	 */
 	public static Expression compileExpression( String expression, ExpressionContext expressionContext, boolean validate )
-			throws ExpressionEngineException
-	{
+			throws ExpressionEngineException {
+//		try
+//		{
 		return compiler.compile( expression, expressionContext, validate );
+//		}
+//		catch(ExpressionEngineException eee)
+//		{
+//			LOGGER.error("error", eee);
+//			throw eee;
+//		}
 	}
 
 	/**
 	 * Retrieves a set of variable names contained within the specified expression string
-	 * 
+	 *
 	 * @param expression the expression to extract the variable names for
 	 * @return a set of variable names contained within the specified expression string
 	 * @throws ExpressionEngineException
 	 */
-	public static Set<String> getVariableNames( String expression ) throws ExpressionEngineException
-	{
+	public static Set<String> getVariableNames( String expression ) throws ExpressionEngineException {
 		// it may matter to a user of this code what order the variable names are in, hence LinkedHashSet
 		LinkedHashSet<String> variableNames = new LinkedHashSet<String>();
 
@@ -146,8 +135,7 @@ public final class ExpressionEngine
 		ExpressionTypeFinder finder = new ExpressionTypeFinder( exp, IdentifierExpression.class );
 		Set<Expression> foundVariables = finder.getExpressions();
 
-		for( Expression variable : foundVariables )
-		{
+		for( Expression variable : foundVariables ) {
 			String variableName = ( (IdentifierExpression) variable ).getIdentifierName();
 			variableNames.add( ( variableName ) );
 		}
@@ -155,33 +143,32 @@ public final class ExpressionEngine
 		return variableNames;
 	}
 
-	public static void main( String[] args ) throws ExpressionEngineException
-	{
-		// String expression = "(false && !true) && !(false && !true)";
-		// String expression = "-3 * -2 + 10 - -2/-2";
-		// String expression = "20 - (10/-2 + (-5 * -2)) / (15 * (-5/5) )";
-		// String expression = "(1/1!=1) ? 7 : 5";
-		// String expression = "true == true";
+	public static void main( String[] args ) throws ExpressionEngineException {
+		//		String expression = "(false && !true) && !(false && !true)";
+		//		String expression = "-3 * -2 + 10 - -2/-2";
+		//		String expression = "20 - (10/-2 + (-5 * -2)) / (15 * (-5/5) )";
+		//		String expression = "(1/1!=1) ? 7 : 5";
+		//		String expression = "true == true";
 		//
 		//
-		// String expression = "iif(1!=1, 'asdf', 'jkl')";
-		// Object result = ExpressionEngine.evaluate( expression, new ExpressionContext() );
-		// System.out.println("Result[" + result + "]");
+		//		String expression = "iif(1!=1, 'asdf', 'jkl')";
+		//		Object result  = ExpressionEngine.evaluate( expression, new ExpressionContext() );
+		//		System.out.println("Result[" + result + "]");
 		//
-		// expression = "iif(true, 5, 66)";
-		// result = ExpressionEngine.evaluate( expression, new ExpressionContext() );
-		// System.out.println("Result[" + result + "]");
+		//		expression = "iif(true, 5, 66)";
+		//		result  = ExpressionEngine.evaluate( expression, new ExpressionContext() );
+		//		System.out.println("Result[" + result + "]");
 
-		// String expression = "iif(false,5,null)";
-		// String expression = "isnull(iif(false, 5, null))";
-		// String expression = "isnull('asdf')";
-		// String expression = "'asdf' + 5 + 'jkl'";
+		//String expression = "iif(false,5,null)";
+		//String expression = "isnull(iif(false, 5, null))";
+		//String expression = "isnull('asdf')";
+		//String expression = "'asdf' + 5 + 'jkl'";
 
-		// String expression = "iif(isnull(null),'null', 'not null')";
+		//String expression = "iif(isnull(null),'null', 'not null')";
 
-		// String expression = "5 * 6";
+		//String expression = "5 * 6";
 
-		// String expression = "abs(5) + 3";
+		//String expression = "abs(5) + 3";
 
 		String expression = "null != 1.0";
 
@@ -190,7 +177,7 @@ public final class ExpressionEngine
 
 		System.out.println( "Result[" + result + "]" );
 
-		// String expression = "true ? 2 : 5";
-		// System.out.println( "complement" + ( 1 & number ) );
+		//		String expression = "true ? 2 : 5";
+		//		System.out.println( "complement" + ( 1 & number ) );
 	}
 }

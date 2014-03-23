@@ -25,7 +25,6 @@ import org.vedantatree.expressionoasis.EOErrorCodes;
 import org.vedantatree.expressionoasis.ExpressionContext;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.types.Type;
-import org.vedantatree.types.ValueObject;
 import org.vedantatree.utils.StringUtils;
 
 
@@ -37,7 +36,7 @@ import org.vedantatree.utils.StringUtils;
  * @version 1.0
  *
  * Modified to support visitor design pattern. Also replaced usage of Hashtable
- * with HashMap for performance improvement as synchronization shouldn't be
+ * with HashMap for performance improvement as synchronisation shouldn't be
  * required.
  *
  * @author Kris Marwood
@@ -284,11 +283,5 @@ public abstract class BinaryOperatorExpression implements Expression {
 		public int hashCode() {
 			return ( leftType.getTypeName() + rightType.getTypeName() ).hashCode();
 		}
-	}
-
-	public ValueObject getValue() throws ExpressionEngineException
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
