@@ -1,0 +1,17 @@
+org.vedantatree.expressionoasis
+org.vedantatree.expressionoasis.config
+org.vedantatree.expressionoasis.exceptions
+org.vedantatree.expressionoasis.expressions
+org.vedantatree.expressionoasis.expressions.arithmatic
+org.vedantatree.expressionoasis.expressions.bitwise
+org.vedantatree.expressionoasis.expressions.booleanexp
+org.vedantatree.expressionoasis.expressions.property
+org.vedantatree.expressionoasis.expressions.relational
+org.vedantatree.expressionoasis.expressions.string
+org.vedantatree.expressionoasis.expressions.xml
+org.vedantatree.expressionoasis.extensions
+org.vedantatree.expressionoasis.extensions.customfunctions
+org.vedantatree.expressionoasis.extensions.customfunctions.xml
+org.vedantatree.expressionoasis.grammar
+org.vedantatree.expressionoasis.grammar.rules
+org.vedantatree.expressionoasis.ui

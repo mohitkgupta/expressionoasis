@@ -7,3 +7,4 @@
 * function for type casting
 * Event firing with context on property set 
 * use pmd of jalopy and checkstyle
+* Analalyse if we can utilize type casting to support type pairs, which are not mentioned in type mappings for an expression
