@@ -1,0 +1,59 @@
+Release 3.2
+
+- Grammar class is loaded from configuration flexibly. Now, developers can implement custom Grammar class and can specify this in configuration. ExpressionOasis will pick this at runtime. 
+- Made config.xml path configurable from System Property (Contribution by Girish Kumar)
+- Made grammar.xml path configurable by exporting it to config.xml
+- Improved code for ExpressionFactory to improve the performance
+- Defined new way to add function definition using new API in Grammar interface 
+- Exposed Grammar through ExpressionEngine Class, so that user can get the metadata if required and also can add specific metadata like custom function identification etc
+- Added three new String operation expressions > startsWith, endsWith, contains (Contribution by Girish Kumar) 
+- Improved documentation
+
+---------------------------------------------------------------------------------------------
+
+Release 3.1
+
+- A micro-release with few but important bugs fixes. The new 3.0.1 version should be used to have bug free solution. 
+  Fixed issues are: GoogleCode: #1, #4
+
+---------------------------------------------------------------------------------------------
+
+Release 3.0
+
+- License changed from GPL to LGPLv3, so that more people can be benefited by using this free software
+- Major change in root packages name. Package name is changed from org.ganges.expressionengine to org.vedantatree.expressionoasis
+- Introduced Maven build system, earlier it was based on Ant (Contributions by Kris Marwood)
+- Dynamic function support. Now custom functions can be defined in xml file, i.e. customfunctions.xml. System will pick these functions at runtime and make these available (Contributions by Kris Marwood)
+- Merged configurations in single config.xml file
+- In memory cache for Compiled Expressions - In memory cache may be useful for performance reasons. It can be turned on/off from config by setting value of 'cacheCompiledExpressions' element
+- Issue #2, #3 are fixed listed at Google Code
+- Many New test cases have been added
+
+---------------------------------------------------------------------------------------------
+
+Release 2.3
+
+- Support for ternary operator
+- Support for XML expressions, using Xalan XPath
+	- XML Expressions will return only String type value. 
+	- We can change it to other specific types also, like Number, String etc in future depending upon data or we may provide some type casting function
+Added more test cases 
+
+More at http://www.vedantatree.com/
+
+---------------------------------------------------------------------------------------------
+
+Release 2.2
+
+- Support for more math functions
+- Support for Bitwise operators
+- Change precedence of operators - http://en.wikipedia.org/wiki/Order_of_operations
+- Change '=' operator with '=='
+
+---------------------------------------------------------------------------------------------
+
+Release 2.1
+
+- Documentation Update
+- Support for unary operators. Now expressions with unary operators are supported. For example, (!false), (!false && true), (-3 + 2/-4) etc
+- Please refer to http://expressionoasis.vedantatree.com/ and http://www.vedantatree.com/ for further details
