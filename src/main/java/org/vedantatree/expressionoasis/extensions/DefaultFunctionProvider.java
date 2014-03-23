@@ -4,16 +4,16 @@
  *  This file is part of ExpressionOasis.
  *
  *  ExpressionOasis is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
+ *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public License
+ *  You should have received a copy of the GNU General Public License
  *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.vedantatree.expressionoasis.extensions;
@@ -28,11 +28,9 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.vedantatree.expressionoasis.ExpressionContext;
-import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.ExpressionFactory;
 import org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar;
-import org.vedantatree.expressionoasis.grammar.Grammar;
 import org.vedantatree.types.MethodKey;
 import org.vedantatree.types.Type;
 import org.vedantatree.types.ValueObject;
@@ -100,7 +98,7 @@ public class DefaultFunctionProvider implements FunctionProvider {
 	 */
 	private void registerFunctions() {
 		ExpressionFactory factory = ExpressionFactory.getInstance();
-		Grammar grammar = ExpressionEngine.getGrammar();
+		DefaultXMLGrammar grammar = DefaultXMLGrammar.getInstance();
 
 		Method[] methods = functionProviderClass.getDeclaredMethods();
 		for( int i = 0; i < methods.length; i++ ) {

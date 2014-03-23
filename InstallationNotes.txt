@@ -1,0 +1,6 @@
+Put COPYING and COPYING.LESSER files to root folder
+Put notice on each source file
+
+Repackaging decision for ganges and utilities
+
+Include grammer in config

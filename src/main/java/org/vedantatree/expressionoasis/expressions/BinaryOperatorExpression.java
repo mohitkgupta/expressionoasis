@@ -4,16 +4,16 @@
  *  This file is part of ExpressionOasis.
  *
  *  ExpressionOasis is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
+ *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public License
+ *  You should have received a copy of the GNU General Public License
  *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.vedantatree.expressionoasis.expressions;
@@ -25,7 +25,6 @@ import org.vedantatree.expressionoasis.EOErrorCodes;
 import org.vedantatree.expressionoasis.ExpressionContext;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.types.Type;
-import org.vedantatree.types.ValueObject;
 import org.vedantatree.utils.StringUtils;
 
 
@@ -37,7 +36,7 @@ import org.vedantatree.utils.StringUtils;
  * @version 1.0
  *
  * Modified to support visitor design pattern. Also replaced usage of Hashtable
- * with HashMap for performance improvement as synchronization shouldn't be
+ * with HashMap for performance improvement as synchronisation shouldn't be
  * required.
  *
  * @author Kris Marwood
@@ -284,11 +283,5 @@ public abstract class BinaryOperatorExpression implements Expression {
 		public int hashCode() {
 			return ( leftType.getTypeName() + rightType.getTypeName() ).hashCode();
 		}
-	}
-
-	public ValueObject getValue() throws ExpressionEngineException
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

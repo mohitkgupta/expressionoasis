@@ -20,7 +20,13 @@
 	</appender>
 
 	
-	<logger name="org.vedantatree">
+	<logger name="org.ganges">
+		<level value="info" />
+		<appender-ref ref="console" />
+		<!--<appender-ref ref="LOG_FILE"/>-->
+	</logger>
+
+	<logger name="au.com.medibank">
 		<level value="info" />
 		<appender-ref ref="console" />
 		<!--<appender-ref ref="LOG_FILE"/>-->

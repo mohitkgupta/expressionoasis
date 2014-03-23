@@ -4,16 +4,16 @@
  *  This file is part of ExpressionOasis.
  *
  *  ExpressionOasis is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
+ *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public License
+ *  You should have received a copy of the GNU General Public License
  *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.vedantatree.expressionoasis.extensions;
@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.vedantatree.exceptions.XException;
 import org.vedantatree.expressionoasis.ExpressionContext;
-import org.vedantatree.expressionoasis.ExpressionEngine;
 import org.vedantatree.expressionoasis.ExpressionEngineConstants;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.ExpressionFactory;
@@ -70,7 +69,11 @@ public class XMLFunctionProvider implements FunctionProvider {
 	private Document		  xmlDocument;
 
 	public XMLFunctionProvider() {
-		ExpressionEngine.getGrammar().addFunction( "xml" );
+		ExpressionFactory factory = ExpressionFactory.getInstance();
+		DefaultXMLGrammar grammar = DefaultXMLGrammar.getInstance();
+
+		factory.addFunction( "xml" );
+		grammar.addFunction( "xml" );
 	}
 
 	public Type getFunctionType( String functionName, Type[] parameterTypes ) throws ExpressionEngineException {
