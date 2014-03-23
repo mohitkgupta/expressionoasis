@@ -1,9 +1,13 @@
 * How to run file, include test cases etc and UI later
 * Updated feature list
+* Change the license to LGPL, upgrade code file notices with LGPL contents http://www.gnu.org/licenses/gpl-howto.html
+* Change the package name to 'vedantatree'* terrnary Operator - true ? 4 : 3 - DONE
 * Swing and Applet for web - http://smart-math-calculator-linux.runiter-calculators.qarchive.org/
 * Compiled Expressions - in XML format And/OR stream
 * Change in Type for 'assignable' check. Also include Any Type handling. Method for getting best type for two types where both of these can be 	  assigned
 * Change for returning best possible type from ternary operator
+* include other assignments operators, if required
 * function for type casting
 * Event firing with context on property set 
 * use pmd of jalopy and checkstyle
+* XML Operators - Done
