@@ -1,5 +1,0 @@
-Support for more math functions
-Bitwise operators
-Change precendence of operators - http://en.wikipedia.org/wiki/Order_of_operations
-Change '=' operator with '=='
- 
