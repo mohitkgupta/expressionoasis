@@ -5,7 +5,7 @@ Release Notes
 
 = Details =
 
-*Release 3.2*
+*Release 3.1*
 
   * Grammar class is loaded from configuration flexibly. Now, developers can implement custom Grammar class and can specify this in configuration. ExpressionOasis will pick this at runtime. 
   * Made config.xml path configurable from System Property (Contribution by Girish Kumar)
@@ -18,7 +18,7 @@ Release Notes
 
 ----
 
-*Release 3.1*
+*Release 3.0.1*
 
   * A micro-release with few but important bugs fixes. The new 3.0.1 version should be used to have bug free solution. 
   * Fixed issues are: GoogleCode: #1, #4
