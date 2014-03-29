@@ -1,0 +1,47 @@
+/*
+* use 'gradle eclipse' for generating eclipse project file
+* use 'gradle javadoc' to generate the api docs in 'build/docs/javadoc' folder
+* use 'gradle test' to run the junit test cases
+* use 'gradle build' to run the complete build
+* use 'gradle tasks' to see the available tasks
+*/
+
+apply plugin: 'java'
+
+// run 'gradle eclipse' command to generate eclipse project files
+apply plugin: 'eclipse'
+
+apply plugin: 'checkstyle'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+// Task to create the jar for expressionoasis
+jar {
+    baseName = 'expressionoasis'
+    version =  '3.2.0'
+}
+
+// Define dependencies here 
+dependencies {
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile (
+    	[group: 'commons-logging', name: 'commons-logging', version: '1.1.3'],
+    	[group: 'log4j', name: 'log4j', version: '1.2.17'],
+    	[group: 'org.simpleframework', name: 'simple-xml', version: '2.3.6'],
+    	[group: 'xerces', name: 'xercesImpl', version: '2.7.1'],
+    	[group: 'xalan', name: 'xalan', version: '2.6.0'],
+    	[group: 'javassist', name: 'javassist', version: '3.8.0.GA'],
+    	[group: 'junit', name: 'junit', version: '4.8.1']
+    ) 
+    //runtime files('lib/a.jar', 'lib/b.jar')
+    //compile files('lib/local-dependency.jar')
+}
+
+// To run the gradle build without installing gradle
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '1.11'
+//}
