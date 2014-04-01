@@ -3,6 +3,7 @@
 * use 'gradle javadoc' to generate the api docs in 'build/docs/javadoc' folder
 * use 'gradle test' to run the junit test cases
 * use 'gradle build' to run the complete build
+* use 'gradle checkstyleMain to run checkstyle for code - on going improvements for config file and code to keep in sync
 * use 'gradle tasks' to see the available tasks
 */
 
@@ -11,6 +12,7 @@ apply plugin: 'java'
 // run 'gradle eclipse' command to generate eclipse project files
 apply plugin: 'eclipse'
 
+// run 'gradle checkstyleMain
 apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
@@ -40,6 +42,21 @@ dependencies {
     //runtime files('lib/a.jar', 'lib/b.jar')
     //compile files('lib/local-dependency.jar')
 }
+
+
+// --------------------------------------------------------------------------------
+
+// plugin for creating distribution
+// apply plugin: 'distribution'
+
+//distributions {
+//    main {
+//        baseName = 'someName'
+//        contents {
+//            from { 'src/readme' }
+//        }
+//    }
+//}
 
 // To run the gradle build without installing gradle
 //task wrapper(type: Wrapper) {
