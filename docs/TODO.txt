@@ -1,3 +1,4 @@
+* Improve build to next level
 * Compiled Expressions - in XML format And/OR stream
 * Change for returning best possible type from ternary operator
 * function for type casting
