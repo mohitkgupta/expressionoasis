@@ -1,26 +1,34 @@
-/**
- * Copyright (c) 2006 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
  *
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.grammar.rules;
 
 import java.util.regex.Pattern;
 
-import org.vedantatree.utils.StringUtils;
+import org.vedantatree.expressionoasis.utils.StringUtils;
 
 
 /**
@@ -30,41 +38,43 @@ import org.vedantatree.utils.StringUtils;
  * @author Parmod Kamboj
  * @author Mohit Gupta
  * @version 1.0
- *
- * Modified to compile and reuse approachable and allowed regular expressions in
- * order to improve performance.
- *
+ * 
+ *          Modified to compile and reuse approachable and allowed regular expressions in
+ *          order to improve performance.
+ * 
  * @author Kris Marwood
  * @version 1.1
  */
-public class ProductionRule implements IProductionRule {
+public class ProductionRule implements IProductionRule
+{
 
 	/**
 	 * This is the name of production rule.
 	 */
-	private String  name;
+	private String	name;
 
 	/**
 	 * This is the regular expression for this production rule to identify the
 	 * approachable tokens
 	 */
-	private Pattern approachableRegexPattern;
+	private Pattern	approachableRegexPattern;
 
 	/**
 	 * This is the regular expression for this production rule to identify the
 	 * allowed tokens
 	 */
-	private Pattern allowedRegexPattern;
+	private Pattern	allowedRegexPattern;
 
 	/**
 	 * Constructs the ProductionRule
 	 * 
 	 * @param name name of the production rule
-	 * @param regularExpression regular expression, will be used as approachable 
-	 * 		  and allowed regular expression
+	 * @param regularExpression regular expression, will be used as approachable
+	 *        and allowed regular expression
 	 * @throws IllegalArgumentException if the parameters are not valid
 	 */
-	public ProductionRule( String name, String regularExpression ) {
+	public ProductionRule( String name, String regularExpression )
+	{
 		this( name, regularExpression, regularExpression );
 	}
 
@@ -73,13 +83,15 @@ public class ProductionRule implements IProductionRule {
 	 * 
 	 * @param name name of the production rule
 	 * @param approachableRegex Regular Expression for checking the
-	 * 		  approachable token
+	 *        approachable token
 	 * @param allowedRegex Expression for checking the
-	 * 		  approachable token
+	 *        approachable token
 	 * @throws IllegalArgumentException if the parameters are not valid
 	 */
-	public ProductionRule( String name, String approachableRegex, String allowedRegex ) {
-		if( !StringUtils.isQualifiedString( approachableRegex ) || !StringUtils.isQualifiedString( allowedRegex ) ) {
+	public ProductionRule( String name, String approachableRegex, String allowedRegex )
+	{
+		if( !StringUtils.isQualifiedString( approachableRegex ) || !StringUtils.isQualifiedString( allowedRegex ) )
+		{
 			throw new IllegalArgumentException( "Passed regular expression can't be null." );
 		}
 
@@ -91,14 +103,16 @@ public class ProductionRule implements IProductionRule {
 	/**
 	 * @see org.vedantatree.expressionoasis.grammar.rules.IProductionRule#getName()
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	/**
 	 * @see org.vedantatree.expressionoasis.grammar.rules.IProductionRule#isApproaching(java.lang.String)
 	 */
-	public boolean isApproaching( String pattern ) {
+	public boolean isApproaching( String pattern )
+	{
 		boolean approaching = approachableRegexPattern.matcher( pattern ).matches();
 		return approaching;
 	}
@@ -106,7 +120,8 @@ public class ProductionRule implements IProductionRule {
 	/**
 	 * @see org.vedantatree.expressionoasis.grammar.rules.IProductionRule#isAllowed(java.lang.String)
 	 */
-	public boolean isAllowed( String token ) {
+	public boolean isAllowed( String token )
+	{
 		boolean allowed = allowedRegexPattern.matcher( token ).matches();
 		return allowed;
 	}

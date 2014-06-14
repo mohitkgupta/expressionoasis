@@ -1,10 +1,10 @@
 Application Name: ExpressionOasis
-Author Name: Mohit Gupta <mohit.gupta@vedantatree.com> & Contributors
 email: mohit.gupta@vedantatree.com
 web: http://www.vedantatree.com/
 facebook: https://www.facebook.com/VedantaTree
+twitter: @VedantaTree
 
-Description: Refer to docs/Project Descriptor.txt
+Description: Refer to docs/Project Description.txt
 Features: Refer to ReleaseNotes.txt
 
 Installation: 

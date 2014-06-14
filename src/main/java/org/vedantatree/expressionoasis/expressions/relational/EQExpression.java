@@ -1,27 +1,35 @@
-/**
- * Copyright (c) 2006 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
-
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
-
+ *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
-
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
+ *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.expressions.relational;
 
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.BinaryOperatorExpression;
-import org.vedantatree.types.Type;
-import org.vedantatree.types.ValueObject;
+import org.vedantatree.expressionoasis.types.Type;
+import org.vedantatree.expressionoasis.types.ValueObject;
 
 
 /**
@@ -30,15 +38,17 @@ import org.vedantatree.types.ValueObject;
  * @author Parmod Kamboj
  * @author Mohit Gupta
  * @version 1.0
- *
- * Addded support for nulls.
- *
+ * 
+ *          Addded support for nulls.
+ * 
  * @author Kris Marwood
  * @version 1.1
  */
-public class EQExpression extends BinaryOperatorExpression {
+public class EQExpression extends BinaryOperatorExpression
+{
 
-	static {
+	static
+	{
 		addTypePair( EQExpression.class, Type.LONG, Type.LONG, Type.BOOLEAN );
 		addTypePair( EQExpression.class, Type.DOUBLE, Type.DOUBLE, Type.BOOLEAN );
 		addTypePair( EQExpression.class, Type.STRING, Type.STRING, Type.BOOLEAN );
@@ -63,47 +73,57 @@ public class EQExpression extends BinaryOperatorExpression {
 	 * 
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#getValue()
 	 */
-	public ValueObject getValue() throws ExpressionEngineException {
+	public ValueObject getValue() throws ExpressionEngineException
+	{
 		Type leftType = leftOperandExpression.getReturnType();
 		Type rightType = rightOperandExpression.getReturnType();
 		Object leftValue = leftOperandExpression.getValue().getValue();
 		Object rightValue = rightOperandExpression.getValue().getValue();
 		ValueObject result = null;
 
-		if( leftType == Type.LONG && rightType == Type.LONG ) {
+		if( leftType == Type.LONG && rightType == Type.LONG )
+		{
 			Boolean value = ( (Long) leftValue ).longValue() == ( (Long) rightValue ).longValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.DOUBLE && rightType == Type.DOUBLE ) {
+		else if( leftType == Type.DOUBLE && rightType == Type.DOUBLE )
+		{
 			Boolean value = ( (Double) leftValue ).doubleValue() == ( (Double) rightValue ).doubleValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.STRING && rightType == Type.STRING ) {
+		else if( leftType == Type.STRING && rightType == Type.STRING )
+		{
 			Boolean value = leftValue.equals( rightValue ) ? Boolean.TRUE : Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.DOUBLE && rightType == Type.LONG ) {
+		else if( leftType == Type.DOUBLE && rightType == Type.LONG )
+		{
 			Boolean value = ( (Double) leftValue ).doubleValue() == ( (Long) rightValue ).longValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.LONG && rightType == Type.DOUBLE ) {
+		else if( leftType == Type.LONG && rightType == Type.DOUBLE )
+		{
 			Boolean value = ( (Long) leftValue ).longValue() == ( (Double) rightValue ).doubleValue() ? Boolean.TRUE
 					: Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.BOOLEAN && rightType == Type.BOOLEAN ) {
+		else if( leftType == Type.BOOLEAN && rightType == Type.BOOLEAN )
+		{
 			Boolean value = leftValue.equals( rightValue ) ? Boolean.TRUE : Boolean.FALSE;
 			result = new ValueObject( value, Type.BOOLEAN );
 		}
-		else if( leftType == Type.OBJECT || rightType == Type.OBJECT ) {
+		else if( leftType == Type.OBJECT || rightType == Type.OBJECT )
+		{
 			Boolean value;
-			if( leftValue == null || rightValue == null ) {
+			if( leftValue == null || rightValue == null )
+			{
 				value = leftValue == rightValue;
 			}
-			else {
+			else
+			{
 				value = leftValue.equals( rightValue ) ? Boolean.TRUE : Boolean.FALSE;
 			}
 			result = new ValueObject( value, Type.BOOLEAN );

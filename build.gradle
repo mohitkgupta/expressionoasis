@@ -1,10 +1,12 @@
 /*
-* use 'gradle eclipse' for generating eclipse project file
-* use 'gradle javadoc' to generate the api docs in 'build/docs/javadoc' folder
-* use 'gradle test' to run the junit test cases
-* use 'gradle build' to run the complete build
-* use 'gradle checkstyleMain to run checkstyle for code - on going improvements for config file and code to keep in sync
+* Download Gradle and add its bin folder to classpath
 * use 'gradle tasks' to see the available tasks
+* use 'gradle eclipse' for generating eclipse project file
+* use 'gradle javadoc' to generate the api docs in '\build\docs\javadoc' folder
+* use 'gradle test' to run the junit test cases and to generate the reports in '\build\reports\tests'
+* use 'gradle build' to run the complete build, jars will be generated in '\build\libs'
+* use 'gradle distZip' to generate jar in 'build\distributions' folder
+* use 'gradle checkstyleMain to run checkstyle, commented as of now - config needs improvement 
 */
 
 apply plugin: 'java'
@@ -13,9 +15,16 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 // run 'gradle checkstyleMain
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
+
+// plugin for creating java distribution in 'build\distributions' 	
+apply plugin: 'java-library-distribution'
+
+// plugin to generate dashboard for all project reports in 'build\reports\buildDashboard'
+apply plugin: 'build-dashboard'
 
 sourceCompatibility = 1.7
+version = 3.2
 
 repositories {
     mavenCentral()
@@ -24,12 +33,16 @@ repositories {
 // Task to create the jar for expressionoasis
 jar {
     baseName = 'expressionoasis'
-    version =  '3.2.0'
+    // http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes
+    manifest {
+        attributes("Implementation-Title": "ExpressionOasis", 
+        			"Implementation-Version": version)
+    }
 }
 
 // Define dependencies here 
 dependencies {
-    compile fileTree(dir: 'lib', include: '*.jar')
+    // compile fileTree(dir: 'lib', include: '*.jar')
     compile (
     	[group: 'commons-logging', name: 'commons-logging', version: '1.1.3'],
     	[group: 'log4j', name: 'log4j', version: '1.2.17'],
@@ -43,22 +56,20 @@ dependencies {
     //compile files('lib/local-dependency.jar')
 }
 
-
-// --------------------------------------------------------------------------------
-
-// plugin for creating distribution
-// apply plugin: 'distribution'
-
-//distributions {
-//    main {
-//        baseName = 'someName'
-//        contents {
-//            from { 'src/readme' }
-//        }
-//    }
-//}
+distributions {
+    main {
+        baseName = 'expressionoasis'
+        contents {
+            from { 'readme.txt' }
+            from { 'ReleaseNotes.txt' }
+            from { 'docs/Project Description.txt' }
+            from { 'build/docs' }
+        }
+    }
+}
 
 // To run the gradle build without installing gradle
-//task wrapper(type: Wrapper) {
-//    gradleVersion = '1.11'
-//}
+// task wrapper(type: Wrapper) {
+//     gradleVersion = '1.11'
+// }
+

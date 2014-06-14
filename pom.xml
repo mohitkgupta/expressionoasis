@@ -22,14 +22,14 @@
         </resources>
     </build>
     <dependencies>
-        <dependency>
+        <!-- dependency>
             <groupId>vedantatree</groupId>
             <artifactId>utilities</artifactId>
             <version>1.1</version>
             <type>jar</type>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Utilities-1.1.jar</systemPath>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
