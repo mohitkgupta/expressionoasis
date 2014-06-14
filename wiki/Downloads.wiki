@@ -1,10 +1,5 @@
 = Downloads for ExpressionOasis =
 
-*Release 3.2:*
-
-Download Link:  [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3.2.zip Click Here]
-Released on: 15th June, 2014
-
-*Release 3.1:*
-
-Click [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3-1.rar here] to download
+|| *Version* || *Released On* || *Download Link* ||
+|| 3.2 || 15th June, 2014 || [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3.2.zip Click Here] ||
+|| 3.1 || || [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3-1.rar Click Here] ||
