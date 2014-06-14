@@ -1,20 +1,28 @@
-/**
- * Copyright (c) 2006 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
  *
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.expressions;
 
@@ -24,9 +32,9 @@ import java.util.Map;
 import org.vedantatree.expressionoasis.EOErrorCodes;
 import org.vedantatree.expressionoasis.ExpressionContext;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
-import org.vedantatree.types.Type;
-import org.vedantatree.types.ValueObject;
-import org.vedantatree.utils.StringUtils;
+import org.vedantatree.expressionoasis.types.Type;
+import org.vedantatree.expressionoasis.types.ValueObject;
+import org.vedantatree.expressionoasis.utils.StringUtils;
 
 
 /**
@@ -35,35 +43,36 @@ import org.vedantatree.utils.StringUtils;
  * @author Parmod Kamboj
  * @author Mohit Gupta
  * @version 1.0
- *
- * Modified to support visitor design pattern. Also replaced usage of Hashtable
- * with HashMap for performance improvement as synchronization shouldn't be
- * required.
- *
+ * 
+ *          Modified to support visitor design pattern. Also replaced usage of Hashtable
+ *          with HashMap for performance improvement as synchronization shouldn't be
+ *          required.
+ * 
  * @author Kris Marwood
  * @version 1.1
  */
-public abstract class BinaryOperatorExpression implements Expression {
+public abstract class BinaryOperatorExpression implements Expression
+{
 
 	/**
 	 * This is the type pairs cache.
 	 */
-	private static final Map TYPE_PAIR_CACHE = new HashMap();
+	private static final Map	TYPE_PAIR_CACHE	= new HashMap();
 
 	/**
 	 * This is the type pair mapping for all the binary operators.
 	 */
-	private static Map	   typePairMapping = new HashMap();
+	private static Map			typePairMapping	= new HashMap();
 
 	/**
 	 * Left operand expression for this binary operator expression.
 	 */
-	protected Expression	 leftOperandExpression;
+	protected Expression		leftOperandExpression;
 
 	/**
 	 * Right operand expression for this binary operator expression.
 	 */
-	protected Expression	 rightOperandExpression;
+	protected Expression		rightOperandExpression;
 
 	/**
 	 * Initializes the child expressions.
@@ -72,24 +81,29 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 *      java.lang.Object)
 	 */
 	public void initialize( ExpressionContext expressionContext, Object parameters, boolean validate )
-			throws ExpressionEngineException {
+			throws ExpressionEngineException
+	{
 		Expression[] arguments = null;
 
-		try {
+		try
+		{
 			arguments = (Expression[]) parameters;
 
-			if( arguments == null || arguments.length != 2 || arguments[0] == null || arguments[1] == null ) {
+			if( arguments == null || arguments.length != 2 || arguments[0] == null || arguments[1] == null )
+			{
 				throw new ExpressionEngineException( "Child expressions information is not valid." );
 			}
 		}
-		catch( ClassCastException ex ) {
+		catch( ClassCastException ex )
+		{
 			throw new ExpressionEngineException( "Child expressions information is not valid." );
 		}
 
 		leftOperandExpression = arguments[0];
 		rightOperandExpression = arguments[1];
 
-		if( validate ) {
+		if( validate )
+		{
 			validate( expressionContext );
 		}
 	}
@@ -97,14 +111,17 @@ public abstract class BinaryOperatorExpression implements Expression {
 	/**
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#getReturnType()
 	 */
-	public Type getReturnType() throws ExpressionEngineException {
+	public Type getReturnType() throws ExpressionEngineException
+	{
 		HashMap typeMapping = (HashMap) typePairMapping.get( getClass() );
 
 		Type type = (Type) typeMapping.get( createTypePair( leftOperandExpression.getReturnType(),
 				rightOperandExpression.getReturnType() ) );
-		if( type == null ) {
+		if( type == null )
+		{
 			if( getLeftOperandExpression().getReturnType() == Type.ANY_TYPE
-					|| getRightOperandExpression().getReturnType() == Type.ANY_TYPE ) {
+					|| getRightOperandExpression().getReturnType() == Type.ANY_TYPE )
+			{
 				type = Type.ANY_TYPE;
 			}
 		}
@@ -116,7 +133,8 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * 
 	 * @return Returns the leftOperandExpression.
 	 */
-	public Expression getLeftOperandExpression() {
+	public Expression getLeftOperandExpression()
+	{
 		return leftOperandExpression;
 	}
 
@@ -125,7 +143,8 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * 
 	 * @return Returns the rightOperandExpression.
 	 */
-	public Expression getRightOperandExpression() {
+	public Expression getRightOperandExpression()
+	{
 		return rightOperandExpression;
 	}
 
@@ -134,7 +153,8 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * 
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#uninitialize(org.vedantatree.expressionoasis.ExpressionContext)
 	 */
-	public void uninitialize( ExpressionContext expressionContext ) {
+	public void uninitialize( ExpressionContext expressionContext )
+	{
 		this.leftOperandExpression = null;
 		this.rightOperandExpression = null;
 	}
@@ -146,11 +166,13 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * @param rightType
 	 * @return
 	 */
-	protected static final TypePair createTypePair( Type leftType, Type rightType ) {
+	protected static final TypePair createTypePair( Type leftType, Type rightType )
+	{
 		String key = leftType.getTypeName() + rightType.getTypeName();
 		TypePair typePair = (TypePair) TYPE_PAIR_CACHE.get( key );
 
-		if( typePair == null ) {
+		if( typePair == null )
+		{
 			typePair = new TypePair( leftType, rightType );
 			TYPE_PAIR_CACHE.put( key, typePair );
 		}
@@ -161,9 +183,9 @@ public abstract class BinaryOperatorExpression implements Expression {
 	/**
 	 * Adds the type mapping for the given operator.
 	 * 
-	 * User can add as many mapping as required for operator. Like in case of 
-	 * '+' operator, one possible mapping is left type = integer, right type = 
-	 * string, result type = string. Because if we add integer to string, it 
+	 * User can add as many mapping as required for operator. Like in case of
+	 * '+' operator, one possible mapping is left type = integer, right type =
+	 * string, result type = string. Because if we add integer to string, it
 	 * will result in a string value.
 	 * 
 	 * @param clazz class of the operator like +, - etc
@@ -171,15 +193,18 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * @param rightType type of right operand
 	 * @param resultType type of result
 	 */
-	protected static final void addTypePair( Class clazz, Type leftType, Type rightType, Type resultType ) {
-		if( clazz == null || !BinaryOperatorExpression.class.isAssignableFrom( clazz ) ) {
+	protected static final void addTypePair( Class clazz, Type leftType, Type rightType, Type resultType )
+	{
+		if( clazz == null || !BinaryOperatorExpression.class.isAssignableFrom( clazz ) )
+		{
 			throw new IllegalArgumentException( "\"" + clazz.getName()
 					+ "\" is not a valid binary operator expression class." );
 		}
 
 		HashMap typeMapping = (HashMap) typePairMapping.get( clazz );
 
-		if( typeMapping == null ) {
+		if( typeMapping == null )
+		{
 			typeMapping = new HashMap();
 			typePairMapping.put( clazz, typeMapping );
 		}
@@ -193,18 +218,22 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * @param expressionContext
 	 * @throws ExpressionEngineException
 	 */
-	protected void validate( ExpressionContext expressionContext ) throws ExpressionEngineException {
-		if( leftOperandExpression.getReturnType() == null ) {
+	protected void validate( ExpressionContext expressionContext ) throws ExpressionEngineException
+	{
+		if( leftOperandExpression.getReturnType() == null )
+		{
 			throw new ExpressionEngineException( "Return type of left operand expression: [" + leftOperandExpression
 					+ "] is null.", EOErrorCodes.INVALID_OPERAND_TYPE, null );
 		}
 
-		if( rightOperandExpression.getReturnType() == null ) {
+		if( rightOperandExpression.getReturnType() == null )
+		{
 			throw new ExpressionEngineException( "Return type of right operand expression: [" + rightOperandExpression
 					+ "] is null.", EOErrorCodes.INVALID_OPERAND_TYPE, null );
 		}
 
-		if( getReturnType() == null ) {
+		if( getReturnType() == null )
+		{
 			String prefix = StringUtils.getLastToken( getClass().getName(), "." );
 			prefix = prefix.substring( 0, prefix.length() - "Expression".length() );
 			throw new ExpressionEngineException( "Either no type mapping is defined or Operands of types: [\""
@@ -217,7 +246,8 @@ public abstract class BinaryOperatorExpression implements Expression {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		String prefix = StringUtils.getLastToken( getClass().getName(), "." );
 		prefix = prefix.substring( 0, prefix.length() );
 
@@ -225,10 +255,13 @@ public abstract class BinaryOperatorExpression implements Expression {
 	}
 
 	/**
-	 * Allows an expression visitor to visit this expression and it's sub-expressions (implements Visitor design pattern).
+	 * Allows an expression visitor to visit this expression and it's sub-expressions (implements Visitor design
+	 * pattern).
+	 * 
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#accept(org.vedantatree.expressionoasis.ExpressionVisitor)
 	 */
-	public void accept( ExpressionVisitor visitor ) {
+	public void accept( ExpressionVisitor visitor )
+	{
 		visitor.visit( this );
 		leftOperandExpression.accept( visitor );
 		rightOperandExpression.accept( visitor );
@@ -237,17 +270,18 @@ public abstract class BinaryOperatorExpression implements Expression {
 	/**
 	 * This is the class for making pair of valid types for a binary operator.
 	 */
-	protected static class TypePair {
+	protected static class TypePair
+	{
 
 		/**
 		 * This is the left side operand's type.
 		 */
-		private Type leftType;
+		private Type	leftType;
 
 		/**
 		 * This is the right side operand's type.
 		 */
-		private Type rightType;
+		private Type	rightType;
 
 		/**
 		 * Constructs the TypePair
@@ -255,20 +289,24 @@ public abstract class BinaryOperatorExpression implements Expression {
 		 * @param leftType type of left operand
 		 * @param rightType type of right operand
 		 */
-		public TypePair( Type leftType, Type rightType ) {
+		public TypePair( Type leftType, Type rightType )
+		{
 			this.leftType = leftType;
 			this.rightType = rightType;
 		}
 
 		/**
 		 * Performs the equlity of type pairs
+		 * 
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals( Object arg ) {
+		public boolean equals( Object arg )
+		{
 			boolean result = false;
 
-			if( arg instanceof TypePair ) {
+			if( arg instanceof TypePair )
+			{
 				TypePair typePair = (TypePair) arg;
 				result = typePair.leftType == leftType && typePair.rightType == rightType;
 			}
@@ -278,10 +316,12 @@ public abstract class BinaryOperatorExpression implements Expression {
 
 		/**
 		 * Returns the hashcode of the type pair.
+		 * 
 		 * @see java.lang.Object#hashCode()
 		 */
 		@Override
-		public int hashCode() {
+		public int hashCode()
+		{
 			return ( leftType.getTypeName() + rightType.getTypeName() ).hashCode();
 		}
 	}

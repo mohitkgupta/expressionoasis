@@ -1,20 +1,28 @@
-/**
- * Copyright (c) 2010 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
  *
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.config;
 
@@ -63,8 +71,19 @@ public class ConfigFactory
 						CONFIG_FILE_PATH = configFilePath;
 						externalPathSet = true;
 					}
-					System.out.println( "Expression Oasis Configurations Path[" + CONFIG_FILE_PATH
-							+ "] externally-set[" + externalPathSet + "]" );
+
+					if( !externalPathSet )
+					{
+						System.out
+								.println( "No custom configuraiton file is set from outside using System Properties. "
+										+ "ExpressionOasis will look for config.xml in class path." );
+					}
+					else
+					{
+						System.out.println( "Configuration file path is specified in system properties for key["
+								+ CONFIG_FILE_PATH_KEY + "]. " + "ExpressionOasis will load the configuration from: "
+								+ CONFIG_FILE_PATH );
+					}
 
 					Serializer serializer = new Persister();
 					try
@@ -75,7 +94,8 @@ public class ConfigFactory
 					}
 					catch( Exception e )
 					{
-						throw new RuntimeException( "Error loading ExpressionOasis configuration: " + e.getMessage(), e );
+						throw new RuntimeException( "Error loading ExpressionOasis configuration. config.xml path["
+								+ CONFIG_FILE_PATH + "]", e );
 					}
 				}
 			}

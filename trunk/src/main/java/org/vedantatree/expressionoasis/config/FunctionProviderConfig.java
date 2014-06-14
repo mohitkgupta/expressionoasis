@@ -1,20 +1,28 @@
-/**
- * Copyright (c) 2010 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
-
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
-
+ *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
-
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
+ *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.config;
 
@@ -32,13 +40,14 @@ import org.vedantatree.expressionoasis.extensions.FunctionProvider;
 /**
  * Represents the configuration of a function provider, and builds the function provider
  * that it represents.
- *
+ * 
  * @author Kris Marwood
  * @version 1.0
  */
 
 @Root(name = "functionProvider")
-public class FunctionProviderConfig {
+public class FunctionProviderConfig
+{
 
 	/* the name of the function provider class represented by this object */
 	@Attribute(name = "className")
@@ -46,21 +55,22 @@ public class FunctionProviderConfig {
 
 	/* the arguments that must be passed to the function provider's constructor */
 	@ElementList(name = "constructorArgs", entry = "constructorArg", required = false)
-	private final List<ConstructorArgument> args;
+	private final List<ConstructorArgument>	args;
 
 	/* an instance of the function provider defined by this class */
-	private FunctionProvider				provider = null;
+	private FunctionProvider				provider	= null;
 
 	/**
 	 * Constructor arguments are annotated so that the Simple XML framework can use
 	 * constructor injection to create an immutable object.
-	 *
+	 * 
 	 * @param className the name of the function provider class to instantiate
 	 * @param args the arguments to pass to the constructor during instantiation
 	 */
 	public FunctionProviderConfig(
 			@Attribute(name = "className") String className,
-			@ElementList(name = "constructorArgs", entry = "constructorArg", required = false) List<ConstructorArgument> args ) {
+			@ElementList(name = "constructorArgs", entry = "constructorArg", required = false) List<ConstructorArgument> args )
+	{
 
 		this.className = className;
 		this.args = args;
@@ -69,38 +79,48 @@ public class FunctionProviderConfig {
 	/**
 	 * Gets an instance of the function provider that is defined in the XML config
 	 * this object represents.
-	 *
+	 * 
 	 * @return an instance of the function provider as defined in the XML config
-	 * this object represents.
-	 *
+	 *         this object represents.
+	 * 
 	 * @throws ExpressionEngineException
 	 */
-	public FunctionProvider getFunctionProvider() {
-		if( provider == null ) {
-			try {
+	public FunctionProvider getFunctionProvider()
+	{
+		if( provider == null )
+		{
+			try
+			{
 				Class providerClass = Class.forName( className );
 				Constructor constructor = providerClass.getConstructor( getConstructorParameterTypes() );
 				provider = (FunctionProvider) constructor.newInstance( getConstructorParameterValues() );
 			}
-			catch( InstantiationException e ) {
+			catch( InstantiationException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( IllegalAccessException e ) {
+			catch( IllegalAccessException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( IllegalArgumentException e ) {
+			catch( IllegalArgumentException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( InvocationTargetException e ) {
+			catch( InvocationTargetException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( NoSuchMethodException e ) {
+			catch( NoSuchMethodException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( SecurityException e ) {
+			catch( SecurityException e )
+			{
 				throw new RuntimeException( e );
 			}
-			catch( ClassNotFoundException e ) {
+			catch( ClassNotFoundException e )
+			{
 				throw new RuntimeException( e );
 			}
 		}
@@ -110,20 +130,24 @@ public class FunctionProviderConfig {
 	/**
 	 * Gets the parameters required by the function provider class's constructor
 	 * (as defined by the args tags in the XML config).
-	 *
+	 * 
 	 * @return an array of classes in the function provider constructor's signature
 	 * @throws ClassNotFoundException
 	 */
-	private Class[] getConstructorParameterTypes() throws ClassNotFoundException {
+	private Class[] getConstructorParameterTypes() throws ClassNotFoundException
+	{
 		Class[] types;
 
-		if( args != null ) {
+		if( args != null )
+		{
 			types = new Class[args.size()];
-			for( int i = 0; i < args.size(); i++ ) {
+			for( int i = 0; i < args.size(); i++ )
+			{
 				types[i] = Class.forName( args.get( i ).getClassName() );
 			}
 		}
-		else {
+		else
+		{
 			types = new Class[0];
 		}
 
@@ -133,25 +157,31 @@ public class FunctionProviderConfig {
 	/**
 	 * Gets the values to pass to the function provider class's constructor
 	 * (as defined by the args tags in the XML config).
-	 *
+	 * 
 	 * @return an array of objects to pass to the function provider class's constructor
 	 * @throws ClassNotFoundException
 	 */
-	private Object[] getConstructorParameterValues() throws ClassNotFoundException {
+	private Object[] getConstructorParameterValues() throws ClassNotFoundException
+	{
 		Object[] values;
 
-		if( args != null ) {
+		if( args != null )
+		{
 			values = new Class[args.size()];
-			for( int i = 0; i < args.size(); i++ ) {
-				if( args.get( i ).getClassName().equals( "java.lang.Class" ) ) {
+			for( int i = 0; i < args.size(); i++ )
+			{
+				if( args.get( i ).getClassName().equals( "java.lang.Class" ) )
+				{
 					values[i] = Class.forName( args.get( i ).getValue() );
 				}
-				else {
+				else
+				{
 					values[i] = args.get( i ).getValue();
 				}
 			}
 		}
-		else {
+		else
+		{
 			values = new Class[0];
 		}
 		return values;

@@ -1,20 +1,28 @@
-/**
- * Copyright (c) 2006 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
-
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
-
+ *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
-
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
+ *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis.expressions.property;
 
@@ -24,9 +32,9 @@ import org.vedantatree.expressionoasis.ExpressionContext;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.expressions.BinaryOperatorExpression;
 import org.vedantatree.expressionoasis.expressions.IdentifierExpression;
-import org.vedantatree.types.Type;
-import org.vedantatree.types.ValueObject;
-import org.vedantatree.utils.BeanUtils;
+import org.vedantatree.expressionoasis.types.Type;
+import org.vedantatree.expressionoasis.types.ValueObject;
+import org.vedantatree.expressionoasis.utils.BeanUtils;
 
 
 /**
@@ -36,17 +44,20 @@ import org.vedantatree.utils.BeanUtils;
  * @author Mohit Gupta
  * @version 1.0
  */
-public class PropertyExpression extends BinaryOperatorExpression {
+public class PropertyExpression extends BinaryOperatorExpression
+{
 
 	/**
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#getValue()
 	 */
-	public ValueObject getValue() throws ExpressionEngineException {
+	public ValueObject getValue() throws ExpressionEngineException
+	{
 		ValueObject value = leftOperandExpression.getValue();
 		Type type = leftOperandExpression.getReturnType();
 		ValueObject returnValue = null;
 
-		try {
+		try
+		{
 			Class clazz = Class.forName( type.getTypeName() );
 
 			// Right expression must be Identifier expression.
@@ -55,10 +66,12 @@ public class PropertyExpression extends BinaryOperatorExpression {
 			Class propertyType = BeanUtils.getPropertyType( clazz, propertyName );
 			returnValue = new ValueObject( propertyValue, Type.createType( propertyType ) );
 		}
-		catch( ClassNotFoundException ex ) {
+		catch( ClassNotFoundException ex )
+		{
 			throw new ExpressionEngineException( type.getTypeName() + " class is not found." );
 		}
-		catch( Exception ex ) {
+		catch( Exception ex )
+		{
 			throw new ExpressionEngineException( ex.getMessage() );
 		}
 
@@ -71,15 +84,18 @@ public class PropertyExpression extends BinaryOperatorExpression {
 	 * @param value
 	 * @throws ExpressionEngineException
 	 */
-	public void setValue( Object value ) throws ExpressionEngineException {
+	public void setValue( Object value ) throws ExpressionEngineException
+	{
 		ValueObject valueObject = leftOperandExpression.getValue();
 
-		try {
+		try
+		{
 			// Right expression must be Identifier expression.
 			String propertyName = ( (IdentifierExpression) rightOperandExpression ).getIdentifierName();
 			BeanUtils.setPropertyValue( valueObject.getValue(), propertyName, value );
 		}
-		catch( Exception ex ) {
+		catch( Exception ex )
+		{
 			throw new ExpressionEngineException( ex.getMessage() );
 		}
 	}
@@ -90,29 +106,35 @@ public class PropertyExpression extends BinaryOperatorExpression {
 	 * @see org.vedantatree.expressionoasis.expressions.BinaryOperatorExpression#validate()
 	 */
 	@Override
-	protected void validate( ExpressionContext expressionContext ) throws ExpressionEngineException {
+	protected void validate( ExpressionContext expressionContext ) throws ExpressionEngineException
+	{
 		Type type = leftOperandExpression.getReturnType();
 
-		if( type == null ) {
+		if( type == null )
+		{
 			throw new ExpressionEngineException( "Return type of left operand expression: [" + leftOperandExpression
 					+ "] is null." );
 		}
 
-		try {
+		try
+		{
 			Class clazz = Class.forName( type.getTypeName() );
 
 			// Right expression must be Identifier expression.
 			String propertyName = ( (IdentifierExpression) rightOperandExpression ).getIdentifierName();
 			Class propertyType = BeanUtils.getPropertyType( clazz, propertyName );
 
-			if( propertyType == null ) {
+			if( propertyType == null )
+			{
 				throw new ExpressionEngineException( "Property [" + propertyName + "] does not exist in " + clazz );
 			}
 		}
-		catch( ClassNotFoundException ex ) {
+		catch( ClassNotFoundException ex )
+		{
 			throw new ExpressionEngineException( type.getTypeName() + " class is not found." );
 		}
-		catch( IntrospectionException ex ) {
+		catch( IntrospectionException ex )
+		{
 			throw new ExpressionEngineException( ex.getMessage() );
 		}
 	}
@@ -121,11 +143,13 @@ public class PropertyExpression extends BinaryOperatorExpression {
 	 * @see org.vedantatree.expressionoasis.expressions.Expression#getReturnType()
 	 */
 	@Override
-	public Type getReturnType() throws ExpressionEngineException {
+	public Type getReturnType() throws ExpressionEngineException
+	{
 		Type returnType = null;
 		Type type = leftOperandExpression.getReturnType();
 
-		try {
+		try
+		{
 			Class clazz = Class.forName( type.getTypeName() );
 
 			// Right expression must be Identifier expression.
@@ -133,10 +157,12 @@ public class PropertyExpression extends BinaryOperatorExpression {
 			Class propertyType = BeanUtils.getPropertyType( clazz, propertyName );
 			returnType = Type.createType( propertyType );
 		}
-		catch( ClassNotFoundException ex ) {
+		catch( ClassNotFoundException ex )
+		{
 			throw new ExpressionEngineException( type.getTypeName() + " class is not found." );
 		}
-		catch( IntrospectionException ex ) {
+		catch( IntrospectionException ex )
+		{
 			throw new ExpressionEngineException( ex.getMessage() );
 		}
 

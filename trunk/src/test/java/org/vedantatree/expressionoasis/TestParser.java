@@ -1,20 +1,28 @@
-/**
- * Copyright (c) 2006 VedantaTree all rights reserved.
+/**	
+ *  Copyright (c) 2005-2014 VedantaTree all rights reserved.
  * 
  *  This file is part of ExpressionOasis.
  *
- *  ExpressionOasis is free software: you can redistribute it and/or modify
+ *  ExpressionOasis is free software. You can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  ExpressionOasis is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL 
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+ *  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
+ *  OR OTHER DEALINGS IN THE SOFTWARE.See the GNU Lesser General Public License 
+ *  for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with ExpressionOasis.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ExpressionOasis. If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *  Please consider to contribute any enhancements to upstream codebase. 
+ *  It will help the community in getting improved code and features, and 
+ *  may help you to get the later releases with your changes.
  */
 package org.vedantatree.expressionoasis;
 
@@ -23,7 +31,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
-import org.vedantatree.expressionoasis.Parser;
 import org.vedantatree.expressionoasis.exceptions.ExpressionEngineException;
 import org.vedantatree.expressionoasis.grammar.DefaultXMLGrammar;
 import org.vedantatree.expressionoasis.grammar.ExpressionToken;
@@ -33,23 +40,25 @@ import org.vedantatree.expressionoasis.grammar.ExpressionToken;
  * @author Mohit Gupta
  * @author Parmod Kamboj
  * 
- * Test case for parser.
+ *         Test case for parser.
  */
-public class TestParser extends TestCase {
+public class TestParser extends TestCase
+{
 
 	/**
 	 * The parser to test.
 	 */
-	private Parser parser;
+	private Parser	parser;
 
 	/**
 	 * Runs the test for parser.
 	 * 
 	 * @param args
 	 * @throws ExpressionEngineException
-	 *             if unable to parse
+	 *         if unable to parse
 	 */
-	public static void main( String[] args ) throws ExpressionEngineException {
+	public static void main( String[] args ) throws ExpressionEngineException
+	{
 		TestRunner.run( TestParser.class );
 	}
 
@@ -57,21 +66,24 @@ public class TestParser extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
-	protected void setUp() throws Exception {
+	protected void setUp() throws Exception
+	{
 		super.setUp();
-		parser = new Parser(new DefaultXMLGrammar());
+		parser = new Parser( new DefaultXMLGrammar() );
 	}
 
 	/**
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	@Override
-	protected void tearDown() throws Exception {
+	protected void tearDown() throws Exception
+	{
 		super.tearDown();
 		parser = null;
 	}
 
-	public void testAritmaticExpression() throws ExpressionEngineException {
+	public void testAritmaticExpression() throws ExpressionEngineException
+	{
 		String exp = "123 + 124 - 67 * 45 / 90 + (12 + 34 / 67)";
 		List tokens = parser.parse( exp );
 		assertEquals( "123", popToken( tokens ) );
@@ -94,7 +106,8 @@ public class TestParser extends TestCase {
 		assertEquals( 0, tokens.size() );
 	}
 
-	public void testFunctionExpression() throws ExpressionEngineException {
+	public void testFunctionExpression() throws ExpressionEngineException
+	{
 		String exp = "120 * pow(sin(20) / tan(30), 2)";
 		List tokens = parser.parse( exp );
 		assertEquals( "120", popToken( tokens ) );
@@ -116,7 +129,8 @@ public class TestParser extends TestCase {
 		assertEquals( 0, tokens.size() );
 	}
 
-	public void testArrayExpression() throws ExpressionEngineException {
+	public void testArrayExpression() throws ExpressionEngineException
+	{
 		String exp = "values[0] + values[1] + values[2] + 120 * 45 / num[1][1]";
 		List tokens = parser.parse( exp );
 		assertEquals( "values", popToken( tokens ) );
@@ -148,7 +162,8 @@ public class TestParser extends TestCase {
 		assertEquals( 0, tokens.size() );
 	}
 
-	public void testPropertyExpression() throws ExpressionEngineException {
+	public void testPropertyExpression() throws ExpressionEngineException
+	{
 		String exp = "1 + .address.city.name + students[0].rollNo";
 		List tokens = parser.parse( exp );
 		assertEquals( "1", popToken( tokens ) );
@@ -175,7 +190,8 @@ public class TestParser extends TestCase {
 	 * @param tokens
 	 * @return
 	 */
-	private String popToken( List tokens ) {
+	private String popToken( List tokens )
+	{
 		ExpressionToken token = (ExpressionToken) tokens.remove( 0 );
 		return token.getValue();
 	}

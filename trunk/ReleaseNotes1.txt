@@ -1,17 +1,25 @@
 Release 3.2
 
+Updated the build system from Maven to Gradle. Gradle is more flexible system.
+Added source code of Utilities.jar to ExpressionOasis project itself
+Improved code for Type system and fixed few issues
+
+---------------------------------------------------------------------------------------------
+
+Release 3.1
+
 - Grammar class is loaded from configuration flexibly. Now, developers can implement custom Grammar class and can specify this in configuration. ExpressionOasis will pick this at runtime. 
 - Made config.xml path configurable from System Property (Contribution by Girish Kumar)
 - Made grammar.xml path configurable by exporting it to config.xml
 - Improved code for ExpressionFactory to improve the performance
 - Defined new way to add function definition using new API in Grammar interface 
 - Exposed Grammar through ExpressionEngine Class, so that user can get the metadata if required and also can add specific metadata like custom function identification etc
-- Added three new String operation expressions > startsWith, endsWith, contains (Contribution by Girish Kumar) 
+- Added three new String operation expressions > startsWith, endsWith, contains (Contribution by Girish Kumar)
 - Improved documentation
 
 ---------------------------------------------------------------------------------------------
 
-Release 3.1
+Release 3.0.1
 
 - A micro-release with few but important bugs fixes. The new 3.0.1 version should be used to have bug free solution. 
   Fixed issues are: GoogleCode: #1, #4
