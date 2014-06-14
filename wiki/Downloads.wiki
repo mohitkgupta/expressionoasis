@@ -2,7 +2,8 @@
 
 *Release 3.2:*
 
-Click [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3.2.zip here] to download
+Download Link:  [https://expressionoasis.googlecode.com/svn/downloads/expressionoasis-3.2.zip Click Here]
+Released on: 15th June, 2014
 
 *Release 3.1:*
 
