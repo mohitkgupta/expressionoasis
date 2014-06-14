@@ -1,6 +1,6 @@
 = Release Notes =
 
-*Release 3.1*
+*Release 3.2*
 
  * Updated the build system from Maven to Gradle. Gradle is more flexible system.
  * Added source code of Utilities.jar to ExpressionOasis project itself
