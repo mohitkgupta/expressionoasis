@@ -25,12 +25,15 @@ import junit.textui.TestRunner;
 import org.ganges.expressionengine.exceptions.ExpressionEngineException;
 import org.ganges.expressionengine.grammar.ExpressionToken;
 
-
 /**
+ * Test case for parser.
+ * 
+ * TODO 
+ * 	Add more test cases for all kind of possible supported expressions
+ * 	Add negative test cases
+ * 
  * @author Mohit Gupta
  * @author Parmod Kamboj
- * 
- * Test case for parser.
  */
 public class TestParser extends TestCase {
 
@@ -43,11 +46,10 @@ public class TestParser extends TestCase {
 	 * Runs the test for parser.
 	 * 
 	 * @param args
-	 * @throws ExpressionEngineException
-	 *             if unable to parse
+	 * @throws ExpressionEngineException if unable to parse
 	 */
-	public static void main( String[] args ) throws ExpressionEngineException {
-		TestRunner.run( TestParser.class );
+	public static void main(String[] args) throws ExpressionEngineException {
+		TestRunner.run(TestParser.class);
 	}
 
 	/**
@@ -70,101 +72,136 @@ public class TestParser extends TestCase {
 
 	public void testAritmaticExpression() throws ExpressionEngineException {
 		String exp = "123 + 124 - 67 * 45 / 90 + (12 + 34 / 67)";
-		List tokens = parser.parse( exp );
-		assertEquals( "123", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "124", popToken( tokens ) );
-		assertEquals( "-", popToken( tokens ) );
-		assertEquals( "67", popToken( tokens ) );
-		assertEquals( "*", popToken( tokens ) );
-		assertEquals( "45", popToken( tokens ) );
-		assertEquals( "/", popToken( tokens ) );
-		assertEquals( "90", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "(", popToken( tokens ) );
-		assertEquals( "12", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "34", popToken( tokens ) );
-		assertEquals( "/", popToken( tokens ) );
-		assertEquals( "67", popToken( tokens ) );
-		assertEquals( ")", popToken( tokens ) );
-		assertEquals( 0, tokens.size() );
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("123", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("124", popToken(tokens));
+		assertEquals("-", popToken(tokens));
+		assertEquals("67", popToken(tokens));
+		assertEquals("*", popToken(tokens));
+		assertEquals("45", popToken(tokens));
+		assertEquals("/", popToken(tokens));
+		assertEquals("90", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("(", popToken(tokens));
+		assertEquals("12", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("34", popToken(tokens));
+		assertEquals("/", popToken(tokens));
+		assertEquals("67", popToken(tokens));
+		assertEquals(")", popToken(tokens));
+		assertEquals(0, tokens.size());
+	}
+
+	public void testCompositeAritmaticExpression() throws ExpressionEngineException {
+		String exp = "123 != 124";
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("123", popToken(tokens));
+		assertEquals("!=", popToken(tokens));
+		assertEquals("124", popToken(tokens));
+		assertEquals(0, tokens.size());
 	}
 
 	public void testFunctionExpression() throws ExpressionEngineException {
 		String exp = "120 * pow(sin(20) / tan(30), 2)";
-		List tokens = parser.parse( exp );
-		assertEquals( "120", popToken( tokens ) );
-		assertEquals( "*", popToken( tokens ) );
-		assertEquals( "pow", popToken( tokens ) );
-		assertEquals( "(", popToken( tokens ) );
-		assertEquals( "sin", popToken( tokens ) );
-		assertEquals( "(", popToken( tokens ) );
-		assertEquals( "20", popToken( tokens ) );
-		assertEquals( ")", popToken( tokens ) );
-		assertEquals( "/", popToken( tokens ) );
-		assertEquals( "tan", popToken( tokens ) );
-		assertEquals( "(", popToken( tokens ) );
-		assertEquals( "30", popToken( tokens ) );
-		assertEquals( ")", popToken( tokens ) );
-		assertEquals( ",", popToken( tokens ) );
-		assertEquals( "2", popToken( tokens ) );
-		assertEquals( ")", popToken( tokens ) );
-		assertEquals( 0, tokens.size() );
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("120", popToken(tokens));
+		assertEquals("*", popToken(tokens));
+		assertEquals("pow", popToken(tokens));
+		assertEquals("(", popToken(tokens));
+		assertEquals("sin", popToken(tokens));
+		assertEquals("(", popToken(tokens));
+		assertEquals("20", popToken(tokens));
+		assertEquals(")", popToken(tokens));
+		assertEquals("/", popToken(tokens));
+		assertEquals("tan", popToken(tokens));
+		assertEquals("(", popToken(tokens));
+		assertEquals("30", popToken(tokens));
+		assertEquals(")", popToken(tokens));
+		assertEquals(",", popToken(tokens));
+		assertEquals("2", popToken(tokens));
+		assertEquals(")", popToken(tokens));
+		assertEquals(0, tokens.size());
+	}
+
+	public void testFunctionRound() throws ExpressionEngineException {
+		String exp = "120 * round(2.2)";
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("120", popToken(tokens));
+		assertEquals("*", popToken(tokens));
+		assertEquals("round", popToken(tokens));
+		assertEquals("(", popToken(tokens));
+		assertEquals("2.2", popToken(tokens));
+		assertEquals(")", popToken(tokens));
+		assertEquals(0, tokens.size());
 	}
 
 	public void testArrayExpression() throws ExpressionEngineException {
 		String exp = "values[0] + values[1] + values[2] + 120 * 45 / num[1][1]";
-		List tokens = parser.parse( exp );
-		assertEquals( "values", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "0", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "values", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "1", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "values", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "2", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "120", popToken( tokens ) );
-		assertEquals( "*", popToken( tokens ) );
-		assertEquals( "45", popToken( tokens ) );
-		assertEquals( "/", popToken( tokens ) );
-		assertEquals( "num", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "1", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "1", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( 0, tokens.size() );
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("values", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("0", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("values", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("1", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("values", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("2", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("120", popToken(tokens));
+		assertEquals("*", popToken(tokens));
+		assertEquals("45", popToken(tokens));
+		assertEquals("/", popToken(tokens));
+		assertEquals("num", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("1", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("1", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals(0, tokens.size());
 	}
 
 	public void testPropertyExpression() throws ExpressionEngineException {
 		String exp = "1 + .address.city.name + students[0].rollNo";
-		List tokens = parser.parse( exp );
-		assertEquals( "1", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( ".", popToken( tokens ) );
-		assertEquals( "address", popToken( tokens ) );
-		assertEquals( ".", popToken( tokens ) );
-		assertEquals( "city", popToken( tokens ) );
-		assertEquals( ".", popToken( tokens ) );
-		assertEquals( "name", popToken( tokens ) );
-		assertEquals( "+", popToken( tokens ) );
-		assertEquals( "students", popToken( tokens ) );
-		assertEquals( "[", popToken( tokens ) );
-		assertEquals( "0", popToken( tokens ) );
-		assertEquals( "]", popToken( tokens ) );
-		assertEquals( ".", popToken( tokens ) );
-		assertEquals( "rollNo", popToken( tokens ) );
-		assertEquals( 0, tokens.size() );
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("1", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("address", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("city", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("name", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("students", popToken(tokens));
+		assertEquals("[", popToken(tokens));
+		assertEquals("0", popToken(tokens));
+		assertEquals("]", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("rollNo", popToken(tokens));
+		assertEquals(0, tokens.size());
 	}
+	
+	public void testPropertyExpressionConfusedWithOperator() throws ExpressionEngineException {
+		String exp = "roundabout.diameter + roundabout.radius";
+		List<ExpressionToken> tokens = parser.parse(exp);
+		assertEquals("roundabout", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("diameter", popToken(tokens));
+		assertEquals("+", popToken(tokens));
+		assertEquals("roundabout", popToken(tokens));
+		assertEquals(".", popToken(tokens));
+		assertEquals("radius", popToken(tokens));
+		assertEquals(0, tokens.size());
+	}
+
 
 	/**
 	 * Returns the token value from top of list and remove from list.
@@ -172,9 +209,8 @@ public class TestParser extends TestCase {
 	 * @param tokens
 	 * @return
 	 */
-	private String popToken( List tokens ) {
-		ExpressionToken token = (ExpressionToken) tokens.remove( 0 );
-		return token.getValue();
+	private String popToken(List<ExpressionToken> tokens) {
+		return tokens.remove(0).getValue();
 	}
 
 }

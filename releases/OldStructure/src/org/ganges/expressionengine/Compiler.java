@@ -32,16 +32,15 @@ import org.ganges.expressionengine.grammar.Grammar;
 
 
 /**
- * This class performs the compilation operation in expression evaluation 
- * process. 
+ * This class compile the expression for evaluation process. 
  * <br>
- * It parses the expression using Parser, which returns it list of expression 
- * tokens as per rules specified with DefaultXMLGrammar. Compiler restructure these tokens
- * in Reverse Polish Notation and then create the Expression Object's tree for 
- * all the tokens.
+ * It parses the expression using Parser, which returns list of expression tokens 
+ * as per rules specified with DefaultXMLGrammar. Compiler restructure these tokens
+ * in Reverse Polish Notation and use these to create Expression Object's tree.
  * 
  * TODO
- * 	Precedence can be stored with Token itself during parsing process - probably not much benefit as precedence is not used repeatedly
+ * 	Precedence can be stored with Token itself during parsing process 
+ * 		- probably not much benefit as precedence is not used repeatedly
  *  can we set operator, function etc values to token itself from parsing process?
  *  Give example of expression compilation and expression tree
  * 
@@ -101,6 +100,7 @@ public class Compiler {
 
 		List<ExpressionToken> expressionTokens = parser.parse( expression );
 		Stack<ExpressionToken> tokensInRPN = restructureTokensInRPN( expressionTokens );
+		
 		return buildExpression( tokensInRPN, expressionContext );
 	}
 
@@ -145,6 +145,7 @@ public class Compiler {
 		 */
 
 		ExpressionToken lastToken = null;
+		
 		for( Iterator<ExpressionToken> iter = expressionTokensList.iterator(); iter.hasNext(); ) {
 			ExpressionToken currentToken = (ExpressionToken) iter.next();
 
