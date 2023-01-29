@@ -1,13 +1,8 @@
 Application Name:* ExpressionOasis
-email: mohit.gupta@vedantatree.com
-web: http://www.vedantatree.com/
-facebook: https://www.facebook.com/VedantaTree
-twitter: @VedantaTree
-
-
-The copyright to all code committed to this project repository is retained by 'VedantaTree'. All code in this 
-repository is the original work of those who have, at any time, been listed as members of this project after being 
-agreed to give 'VedantaTree' all intellectual property rights to their contributions.
+email: mohitgputa.matrix@gmail.com
+web: https://matrixexplorer.medium.com/
+Linkedin: https://www.linkedin.com/in/mohitkgupta/
+twitter: @mohitgupta_ynr
 
 Description/Features: Refer to Wiki home page, and Release Notes
 
